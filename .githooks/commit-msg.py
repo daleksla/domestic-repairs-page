@@ -12,7 +12,7 @@
 		* Wrap text at 72 characters (don't let each line have more then 72 character) 
 	* We can write to check these rules are being followed or to throw an error """
 
-import sysa
+import sys
 
 def main():
 	message = ""
