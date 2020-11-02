@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+
+from subprocess import check_output
+import sys
+
+"""* It has been advised to manage merges of branches on the Github sever (as opposed to doing so locally)
+	 * Therefore, this program will essentially suggest the user to only push branch content, therefore merges can be avoided"""
+
+def main():
+	branch = check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD']) #here we call the terminal and store the output
+	if branch == b'master\n': #if the output shows it's the master branch
+		print("You seldomly should push the master branch to the Server")
+		choice = str(input("Would you like to proceed? [Y/N]"))
+		if choice != 'Y':
+			return 1
+	return 0
+		
+if __name__ == "__main__":
+	sys.exit(main())
