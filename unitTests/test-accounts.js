@@ -111,11 +111,12 @@ test('LOGIN    : invalid password', async test => {
 	}
 })
 
-test('Type retrieval', async test => {
+test('ACCOUNT      : type retrieval', async test => {
 	test.plan(1)
 	const account = await new Accounts()
 	try {
-		const type = await account.returnType('jdoe')
+		const type = await account.returnType('daleksla')
+		console.log(type)
 		if(type === 'customer' || type === 'technician') {
 			test.is('User "type" is either "customer" or "technician" - correct!')
 		}
@@ -128,3 +129,4 @@ test('Type retrieval', async test => {
 		account.close()
 	}
 })
+

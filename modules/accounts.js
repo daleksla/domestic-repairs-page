@@ -67,7 +67,7 @@ class Accounts {
 		return true
 	}
 	
-	async returnType(username) {
+	async returnType(username) { //this one still doesn't work
 		const sql = `SELECT type FROM users WHERE user="${username}";`
 		const type = await this.db.get(sql)
 		return type
@@ -75,7 +75,7 @@ class Accounts {
 	
 	async delete(username) {
 		const sql = `DELETE FROM users WHERE user="${username}";`
-		const type = await this.db.get(sql)
+		const type = await this.db.run(sql)
 	}
 
 	async close() {
@@ -84,3 +84,7 @@ class Accounts {
 }
 
 export default Accounts
+
+// const account = await new Accounts()
+// const value = await account.returnType('daleksla')
+// console.log(value)
