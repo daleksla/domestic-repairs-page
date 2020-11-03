@@ -55,6 +55,7 @@ class Accounts {
 	 * @param {String} password the password to check
 	 * @returns {Boolean} returns true if credentials are valid
 	 */
+	
 	async login(username, password) {
 		let sql = `SELECT count(id) AS count FROM users WHERE user="${username}";`
 		const records = await this.db.get(sql)
@@ -64,6 +65,17 @@ class Accounts {
 		const valid = await bcrypt.compare(password, record.pass)
 		if(valid === false) throw new Error(`invalid password for account "${username}"`)
 		return true
+	}
+	
+	async returnType(username) {
+		const sql = `SELECT type FROM users WHERE user="${username}";`
+		const type = await this.db.get(sql)
+		return type
+	}
+	
+	async delete(username) {
+		const sql = `DELETE FROM users WHERE user="${username}";`
+		const type = await this.db.get(sql)
 	}
 
 	async close() {

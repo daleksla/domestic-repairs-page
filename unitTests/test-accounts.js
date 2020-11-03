@@ -110,3 +110,21 @@ test('LOGIN    : invalid password', async test => {
 		account.close()
 	}
 })
+
+test('Type retrieval', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	try {
+		const type = await account.returnType('jdoe')
+		if(type === 'customer' || type === 'technician') {
+			test.is('User "type" is either "customer" or "technician" - correct!')
+		}
+		else {
+			test.fail('Function did not return correct types - should be "customer" or "technician"')
+		}
+	} catch(err) {
+		console.log(err.message, 'This test may not be invalid, rather the username we are testing with is faulty')
+	} finally {
+		account.close()
+	}
+})
