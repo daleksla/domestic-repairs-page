@@ -1,4 +1,4 @@
-name: Multi-Stage #give this pipeline an actual name
+name: Syntax & Testing #give this pipeline an actual name
 on:
   push:
     branches: ['*']
