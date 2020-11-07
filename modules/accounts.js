@@ -37,6 +37,7 @@ class Accounts {
 		Array.from(arguments).forEach( val => {
 			if(val.length === 0) throw new Error('missing field')
 		})
+		if( !(type === 'customer' || type === 'technician') ) throw new Error(`Account type "${type}" is invalid`)
 		let sql = `SELECT COUNT(id) as records FROM users WHERE user="${user}";`
 		const data = await this.db.get(sql)
 		if(data.records !== 0) throw new Error(`username "${user}" already in use`)
@@ -48,14 +49,12 @@ class Accounts {
 		await this.db.run(sql)
 		return true
 	}
-
 	/**
 	 * checks to see if a set of login credentials are valid
 	 * @param {String} username the username to check
 	 * @param {String} password the password to check
 	 * @returns {Boolean} returns true if credentials are valid
 	 */
-	
 	async login(username, password) {
 		let sql = `SELECT count(id) AS count FROM users WHERE user="${username}";`
 		const records = await this.db.get(sql)
@@ -66,16 +65,14 @@ class Accounts {
 		if(valid === false) throw new Error(`invalid password for account "${username}"`)
 		return true
 	}
-	
-	async returnType(username) { //this one still doesn't work
-		const sql = `SELECT type FROM users WHERE user="${username}";`
-		const type = await this.db.get(sql)
-		return type
-	}
-	
-	async delete(username) {
-		const sql = `DELETE FROM users WHERE user="${username}";`
-		const type = await this.db.run(sql)
+
+	async getType(username) {
+		let sql = `SELECT count(id) AS count FROM users WHERE user="${username}";`
+		const records = await this.db.get(sql)
+		if(!records.count) throw new Error(`username "${username}" not found`)
+		sql = `SELECT type FROM users WHERE user="${username}";`
+		const object = await this.db.get(sql) //it returns an object, not value alone
+		return String(object.type)
 	}
 
 	async close() {
@@ -86,5 +83,6 @@ class Accounts {
 export default Accounts
 
 // const account = await new Accounts()
-// const value = await account.returnType('daleksla')
+// await account.register('daleksla', 'COUNTolaf@16', 'customer', 'daleksla@outlook.com')
+// const value = await account.getType('daleksla')
 // console.log(value)
