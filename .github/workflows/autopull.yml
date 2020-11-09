@@ -11,10 +11,12 @@ jobs:
     steps:
       # This step will retry until required check passes
       # and will fail the whole workflow if the check conclusion is not a success
+      # This step will retry until required check passes
+      # and will fail the whole workflow if the check conclusion is not a success
       - name: Wait on tests
         uses: lewagon/wait-on-check-action@v0.1
         with:
-          ref: master # can be commit SHA or tag too
+          ref: workflows # can be commit SHA or tag too
           check-name: Syntax & Testing # name of the existing check
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 20 # seconds
