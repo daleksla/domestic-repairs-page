@@ -14,7 +14,7 @@ jobs:
       - name: Wait on tests
         uses: lewagon/wait-on-check-action@v0.1
         with:
-          ref: ${{ github.head_ref }} # check current branch is green (make dynamic)
+          ref: ${{ GITHUB_HEAD_REF }} # check current branch is green (make dynamic)
           check-name: Syntax & Testing # name of the existing check
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 20 # seconds
