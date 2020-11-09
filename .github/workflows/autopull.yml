@@ -6,23 +6,11 @@ on:
       - main
 jobs:
   auto-pull-request:
-    name: Pull-Request
     runs-on: ubuntu-latest
     steps:
-      # This step will retry until required check passes
-      # and will fail the whole workflow if the check conclusion is not a success
-      # This step will retry until required check passes
-      # and will fail the whole workflow if the check conclusion is not a success
-#       - name: Wait on tests
-#         uses: lewagon/wait-on-check-action@v0.1
-#         with:
-#           ref: master # can be commit SHA or tag too
-#           check-name: syntaxntests # name of the existing check
-#           repo-token: ${{ secrets.GITHUB_TOKEN }}
-#           wait-interval: 20 # seconds
-      - name: pull-request-action
-        uses: vsoch/pull-request-action@1.0.6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_PREFIX: "update/"
-          PULL_REQUEST_BRANCH: "master"
+    - uses: actions/checkout@v2
+    - name: pull-request
+      uses: repo-sync/pull-request@v2
+      with:
+        destination_branch: "master"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
