@@ -18,7 +18,6 @@ jobs:
           check-name: test # name of the existing check
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 20 # seconds
-    steps:
       - name: pull-request-action
         uses: vsoch/pull-request-action@1.0.6
         env:
