@@ -1,6 +1,6 @@
 name: Pull Request on Branch Push #note: modify so it will only open request if other tests pass
 on:
-	push:
+  push:
     branches-ignore:
       - master
       - main
