@@ -2,8 +2,6 @@ name: Syntax & Testing #give this pipeline an actual name
 on:
   push:
     branches: ['*']
-  pull_request:
-    branches: ['master']
 jobs:
   Linter: #first test - called "Linter"
     runs-on: ubuntu-latest
