@@ -9,7 +9,7 @@ import Accounts from '../modules/accounts.js'
 const dbName = 'website.db'
 
 /**
- * The secure home page.
+ * The custhub home page.
  *
  * @name Home Page
  * @route {GET} /
@@ -65,7 +65,7 @@ router.post('/login', async ctx => {
 		const body = ctx.request.body
 		await account.login(body.user, body.pass)
 		ctx.session.authorised = true
-		const referrer = body.referrer || '/secure'
+		const referrer = body.referrer || '/custhub'
 		return ctx.redirect(`${referrer}?msg=you are now logged in...`)
 	} catch(err) {
 		ctx.hbs.msg = err.message
