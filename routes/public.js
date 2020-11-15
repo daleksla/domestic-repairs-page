@@ -42,7 +42,7 @@ router.post('/register', async ctx => {
 	const account = await new Accounts(dbName)
 	try {
 		// call the functions in the module
-		await account.register(ctx.request.body.user, ctx.request.body.pass, ctx.request.body.email)
+		await account.register(ctx.request.body.user, ctx.request.body.pass, ctx.request.body.type, ctx.request.body.email)
 		ctx.redirect(`/login?msg=new user "${ctx.request.body.user}" added, you need to log in`)
 	} catch(err) {
 		ctx.hbs.msg = err.message
@@ -69,8 +69,7 @@ router.post('/login', async ctx => {
 		ctx.session.authorised = true
 		ctx.session.user = body.user
 		const accountType = await account.getType(ctx.session.user)
-		if(accountType == 'customer')
-		{
+		if(accountType == 'customer') {
 	// 		console.log(ctx.session.user)
 			const referrer = body.referrer || '/custhub'
 			return ctx.redirect(`${referrer}?msg=you are now logged in...`)

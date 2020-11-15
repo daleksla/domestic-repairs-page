@@ -30,6 +30,13 @@
 				<label for="pass">Password</label><br />
 				<input type="password" name="pass" placeholder="your chosen password" value="{{body.pass}}">
 			</p>
+		<label>
+			<p>Account Type</p>
+      <select required name="type">
+        <option value="customer">Customer</option>
+        <option value="technician">Technician</option>
+      </select>
+    </label>
 			<p>
 				<label for="email">Email</label><br />
 				<input type="email" name="email" placeholder="a valid email address" value="{{body.email}}">

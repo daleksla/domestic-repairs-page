@@ -21,15 +21,19 @@
 			</aside>
 		{{/if}}
 		<main>
-			<table>
-				<tr><th>Job</th><th>Status</th></tr>
-				{{#each record}}
-					<tr>
-						<td>{{this.job}}</td>
-						<td>{{this.status}}</td>
-					</tr>
-				{{/each}}
-			</table>
+			{{#if record.status}}
+				<table>
+					<tr><th>Job</th><th>Status</th></tr>
+					{{#each record}}
+						<tr>
+							<td>{{this.job}}</td>
+							<td>{{this.status}}</td>
+						</tr>
+					{{/each}}
+				</table>
+			{{else}}
+				<p>No job data is stored for your account</p>
+			{{/if}}
 <!-- 		<p>This is a secure page. Users need to have a valid account and be logged in to see it.</p> -->
 		<p><a href="/">Home page</a></p>
 		</main>

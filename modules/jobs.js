@@ -79,7 +79,7 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 		let sql = `SELECT count(id) AS count FROM jobs WHERE customerID=${customerID};`
 		let records = await this.db.get(sql)
 		if(!records.count) {
-			throw new Error(`No jobs found for customer with customerID "${customerID}"`)
+			return `No jobs found for customer with customerID "${customerID}"`
 		}
 		sql = `SELECT job FROM jobs WHERE customerID=${customerID};`
 		const object = await this.db.all(sql) //it returns an object, not value alone
