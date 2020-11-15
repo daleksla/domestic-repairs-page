@@ -99,7 +99,7 @@ class Accounts {
 	async getID(username) {
 		let sql = `SELECT count(id) AS count FROM users WHERE user="${username}";`
 		const records = await this.db.get(sql)
-		if(!records.count) throw new Error(`user "${username}" not found`)
+		if(records.count === 0) throw new Error(`user "${username}" not found`)
 		sql = `SELECT id FROM users WHERE user="${username}";`
 		const object = await this.db.get(sql) //it returns an object, not value alone
 		return Number(object.id)

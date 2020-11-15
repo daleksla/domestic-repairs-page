@@ -18,6 +18,7 @@ test('REGISTER : register two of the same job with the same account', async test
 			'incorrect error message')
 	} finally {
 		account.close()
+		job.close()
 	}
 })
 
@@ -34,6 +35,7 @@ test('REGISTER : error if blank job', async test => {
 		test.is(err.message, 'missing field', 'incorrect error message')
 	} finally {
 		account.close()
+		job.close()
 	}
 })
 
@@ -50,6 +52,7 @@ test('REGISTER : error if blank status', async test => {
 		test.is(err.message, 'missing field', 'incorrect error message')
 	} finally {
 		account.close()
+		job.close()
 	}
 })
 
@@ -65,6 +68,7 @@ test('REGISTER : error if blank customerID', async test => {
 		test.is(err.message, 'missing field', 'incorrect error message')
 	} finally {
 		account.close()
+		job.close()
 	}
 })
 
@@ -81,22 +85,25 @@ test('REGISTER : error if invalid status', async test => {
 		test.is(err.message, 'status "random" is invalid', 'incorrect error message')
 	} finally {
 		account.close()
+		job.close()
 	}
 })
 
-test('GET STATUS : invalid account', async test => {
+test('GET STATUS : invalid user', async test => {
 	test.plan(1)
 	const account = await new Accounts()
 	const job = await new Jobs()
 	try {
 		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
 		const accountID = await account.getID('doej')
-		await job.register('fridge', 'random', accountID+1)
+		await job.register('fridge', 'resolved', accountID)
+		await job.getStatus('fridge', 'resolved', accountID+1)
 		test.fail('error not thrown')
 	} catch(err) {
-		test.is(err.message, 'status "random" is invalid', 'incorrect error message')
+		test.is(err.message, 'customer with customerID "2" not found', 'incorrect error message')
 	} finally {
 		account.close()
+		job.close()
 	}
 })
 
@@ -120,6 +127,7 @@ test('GET STATUS : status retrieval', async test => {
 	test.is(value, 'resolved')
 
 	account.close()
+	job.close()
 })
 
 test('UPDATE STATUS : error if blank job', async test => {
@@ -136,6 +144,7 @@ test('UPDATE STATUS : error if blank job', async test => {
 		test.is(err.message, 'missing field', 'incorrect error message')
 	} finally {
 		account.close()
+		job.close()
 	}
 })
 
@@ -153,6 +162,7 @@ test('UPDATE STATUS : error if blank status', async test => {
 		test.is(err.message, 'missing field', 'incorrect error message')
 	} finally {
 		account.close()
+		job.close()
 	}
 })
 
@@ -170,6 +180,7 @@ test('UPDATE STATUS : error if blank customerID', async test => {
 		test.is(err.message, 'missing field', 'incorrect error message')
 	} finally {
 		account.close()
+		job.close()
 	}
 })
 
@@ -187,5 +198,37 @@ test('UPDATE STATUS : error if invalid status', async test => {
 		test.is(err.message, 'status "random" is invalid', 'incorrect error message')
 	} finally {
 		account.close()
+		job.close()
 	}
+})
+
+test('GET JOBS : user / job not found', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const job = await new Jobs()
+	try {
+		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+		const accountID = await account.getID('doej')
+		await job.register('fridge', 'resolved', accountID)
+		await job.getJobs(accountID+1)
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'No jobs found for customer with customerID "2"', 'incorrect error message')
+	} finally {
+		account.close()
+		job.close()
+	}
+})
+
+test('GET JOBS : jobs retrieval', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const job = await new Jobs()
+	await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+	const accountID = await account.getID('doej')
+
+	await job.register('fridge', 'unassigned', accountID)
+	const value = await job.getJobs(accountID)
+	const mockValue = 'fridge'
+	test.is(value[0].job, mockValue)
 })

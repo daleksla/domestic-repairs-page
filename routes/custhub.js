@@ -1,7 +1,10 @@
 
 import Router from 'koa-router'
+import Accounts from '../modules/accounts.js'
+import Jobs from '../modules/jobs.js'
 
 const router = new Router({ prefix: '/custhub' })
+const dbName = 'website.db'
 
 async function checkAuth(ctx, next) {
 	console.log('customer hub router middleware')
@@ -13,6 +16,16 @@ async function checkAuth(ctx, next) {
 router.use(checkAuth)
 
 router.get('/', async ctx => {
+	const account = await new Accounts(dbName)
+	const job = await new Jobs(dbName)
+	const currentUserName = ctx.session.user
+	const currentUserID = await account.getID(currentUserName)
+	const jobs = await job.getJobs(currentUserID)
+	for(let aJob of jobs) {
+		aJob.status = await job.getStatus(aJob.job, currentUserID)
+	}
+// 	console.log(jobs)
+	ctx.hbs.record = jobs
 	try {
 		await ctx.render('custhub', ctx.hbs)
 	} catch(err) {

@@ -6,6 +6,7 @@ const router = new Router()
 router.use(bodyParser({multipart: true}))
 
 import Accounts from '../modules/accounts.js'
+import Jobs from '../modules/jobs.js'
 const dbName = 'website.db'
 
 /**
@@ -60,13 +61,24 @@ router.get('/login', async ctx => {
 
 router.post('/login', async ctx => {
 	const account = await new Accounts(dbName)
+	const job = await new Accounts(dbName)
 	ctx.hbs.body = ctx.request.body
 	try {
 		const body = ctx.request.body
 		await account.login(body.user, body.pass)
 		ctx.session.authorised = true
-		const referrer = body.referrer || '/custhub'
-		return ctx.redirect(`${referrer}?msg=you are now logged in...`)
+		ctx.session.user = body.user
+		const accountType = await account.getType(ctx.session.user)
+		if(accountType == 'customer')
+		{
+	// 		console.log(ctx.session.user)
+			const referrer = body.referrer || '/custhub'
+			return ctx.redirect(`${referrer}?msg=you are now logged in...`)
+		} else if(accountType == 'technician') {
+				// 		console.log(ctx.session.user)
+			const referrer = body.referrer || '/custhub'
+			return ctx.redirect(`${referrer}?msg=you are now logged in...`)
+		} else throw new Error('Invalid account')
 	} catch(err) {
 		ctx.hbs.msg = err.message
 		await ctx.render('login', ctx.hbs)

@@ -70,7 +70,28 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 		const object = await this.db.get(sql) //it returns an object, not value alone
 		return String(object.status)
 	}
-
+	/**
+	 * checks to return the job status
+	 * @param {Number} customerID the ID of the customer to check
+	 * @returns {Object} the jobs associated with that customerID 
+	 */
+	async getJobs(customerID) {
+		let sql = `SELECT count(id) AS count FROM jobs WHERE customerID=${customerID};`
+		let records = await this.db.get(sql)
+		if(!records.count) {
+			throw new Error(`No jobs found for customer with customerID "${customerID}"`)
+		}
+		sql = `SELECT job FROM jobs WHERE customerID=${customerID};`
+		const object = await this.db.all(sql) //it returns an object, not value alone
+		return object
+	}
+	/**
+	 * checks to return the job status
+	 * @param {String} job the job name to check
+	 * @param {String} status to be updated
+	 * @param {String} customerID who's job this pertains to
+	 * @returns {Boolean} returns true if the job has been updated
+	 */
 	async updateStatus(job, newStatus, customerID) {
 		Array.from(arguments).forEach( val => {
 			if(val.length === 0) throw new Error('missing field')
