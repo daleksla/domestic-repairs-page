@@ -4,7 +4,7 @@ Web Pages:
 	- Home / About us page
 	- My Account (should have login screen ; if login is correct, redirect based on account type, else display error)
 		- Customer Hub (should show issues and current status in table, where issue is to the left and drop down menu of status to the right ; should have button on the top taking you to report new issue)
-			- Report Issue (should have a form to input new issue incl. uploading files or directly taking pics ; should redirect to technican site)
+			- Report Issue (should have a form to input new issue incl. uploading files or directly taking pics ; should redirect to technican site) add beforeunload if user leaves without submitting
 				- Availible technicians (should display an ordered list with the address and phone number beside
 		- Technician Hub (list of unassigned jobs - clicking any of the jobs will redirect you to a site presenting details of each case ; show from new to oldest (including checkbox option to see jobs from last 3 days only)
 			- Job Case (provides details on the job with an accept or ignore button ; if ignore, redirect to original page. if accept, forward to scheduele)

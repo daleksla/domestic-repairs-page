@@ -97,7 +97,7 @@ test('GET STATUS : invalid user', async test => {
 		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
 		const accountID = await account.getID('doej')
 		await job.register('fridge', 'resolved', accountID)
-		await job.getStatus('fridge', 'resolved', accountID+1)
+		await job.getStatus('fridge', accountID+1)
 		test.fail('error not thrown')
 	} catch(err) {
 		test.is(err.message, 'customer with customerID "2" not found', 'incorrect error message')
@@ -200,6 +200,20 @@ test('UPDATE STATUS : error if invalid status', async test => {
 		account.close()
 		job.close()
 	}
+})
+
+test('UPDATE STATUS : status update', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const job = await new Jobs()
+	await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+	const accountID = await account.getID('doej')
+	await job.register('fridge', 'unassigned', accountID)
+	await job.updateStatus('fridge', 'resolved', accountID)
+	const status = await job.getStatus('fridge', accountID)
+	test.is(status, 'resolved')
+	account.close()
+	job.close()
 })
 
 test('GET JOBS : jobs not found', async test => {

@@ -58,9 +58,9 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 		let sql = `SELECT count(id) AS count FROM jobs WHERE job="${job}" AND customerID=${customerID};`
 		let records = await this.db.get(sql)
 		if(!records.count) {
-			sql = `SELECT count(id) AS new FROM jobs WHERE job="${job}";`
+			sql = `SELECT count(id) AS count FROM jobs WHERE job="${job}";`
 			records = await this.db.get(sql)
-			if(!records.new) {
+			if(!records.count) {
 				throw new Error(`job "${job}" not found`)
 			} else {
 				throw new Error(`customer with customerID "${customerID}" not found`)
@@ -105,7 +105,7 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 			sql = `SELECT count(id) AS new FROM jobs WHERE job="${job}";`
 			records = await this.db.get(sql)
 			if(!records.new) throw new Error(`job "${job}" not found`)
-			throw new Error(`customer with customerID "${customerID}" not found`)
+			else throw new Error(`customer with customerID "${customerID}" not found`)
 		}
 		sql = `UPDATE jobs SET status="${newStatus}" WHERE job="${job}" AND customerID=${customerID};`
 		await this.db.run(sql)

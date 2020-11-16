@@ -289,9 +289,15 @@ nav a:visited {
 }
 
 nav a:hover {
-	color: gray
+	color: gray;
 }
 
 nav h2 {
   display: none;
 }
+
+/* #target {
+    height: 100px;
+    background-color: gray;
+    transition: opacity 1s;
+} */

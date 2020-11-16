@@ -32,18 +32,18 @@
 		</nav>
 		{{#if msg}}
  			<aside>
-				<p class="msg">{{msg}}</p>
+				<p id="notification" class="msg">{{msg}}</p>
 			</aside>
 		{{/if}}
 		<main>
 		<form action="/login" method="post">
 			<p>
 				<label for="user">Username</label><br />
-				<input type="text" name="user" placeholder="your username" value="{{body.user}}" autofocus>
+				<input type="text" name="user" required="true" data-message="Username required" placeholder="your username" value="{{body.user}}" autofocus>
 			</p>
 			<p>
 				<label for="pass">Password</label><br />
-				<input type="password" name="pass" placeholder="your password" value="{{body.pass}}">
+				<input type="password" name="pass" required="true" data-message="Password required" placeholder="your password" value="{{body.pass}}">
 			</p>
 			<input type="hidden" name="referrer" value="{{referrer}}">
 			<p><input type="submit" value="Log in"></p>
