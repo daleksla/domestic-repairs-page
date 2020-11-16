@@ -73,11 +73,11 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 	/**
 	 * checks to return the job status
 	 * @param {Number} customerID the ID of the customer to check
-	 * @returns {Object} the jobs associated with that customerID 
+	 * @returns {Object} the jobs associated with that customerID
 	 */
 	async getJobs(customerID) {
 		let sql = `SELECT count(id) AS count FROM jobs WHERE customerID=${customerID};`
-		let records = await this.db.get(sql)
+		const records = await this.db.get(sql)
 		if(!records.count) {
 			return `No jobs found for customer with customerID "${customerID}"`
 		}
@@ -104,9 +104,7 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 		if(!records.count) {
 			sql = `SELECT count(id) AS new FROM jobs WHERE job="${job}";`
 			records = await this.db.get(sql)
-			if(!records.new) {
-				throw new Error(`job "${job}" not found`)
-			}
+			if(!records.new) throw new Error(`job "${job}" not found`)
 			throw new Error(`customer with customerID "${customerID}" not found`)
 		}
 		sql = `UPDATE jobs SET status="${newStatus}" WHERE job="${job}" AND customerID=${customerID};`

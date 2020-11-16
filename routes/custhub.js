@@ -22,15 +22,12 @@ router.get('/', async ctx => {
 	const currentUserID = await account.getID(currentUserName)
 	const jobs = await job.getJobs(currentUserID)
 	if(!jobs.includes('No jobs found for customer with customerID "')) {
-		for(let aJob of jobs) {
+		for(const aJob of jobs) {
 			aJob.status = await job.getStatus(aJob.job, currentUserID)
 		}
 		ctx.hbs.record = jobs
 		ctx.hbs.record.status = true
-	} else {
-		ctx.hbs.record = jobs
-	}
-// 	console.log(jobs)
+	} else ctx.hbs.record = jobs
 	try {
 		await ctx.render('custhub', ctx.hbs)
 	} catch(err) {

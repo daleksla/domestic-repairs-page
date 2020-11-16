@@ -8,13 +8,28 @@
 		<meta name="description" content="form to add new books">
 		<meta name="author" content="Mark Tyers">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
-		<script type="module" src="../public/main.js"></script>
+		<script type="module" src="{{host}}/main.js"></script>
 	</head>
 	<body>
 		<header>
-		<h1>Secure Page</h1>
-		<a href="/logout">Log out</a>
+		<h1>Customer Hub</h1>
+			<a href="/logout">Log out</a>
 		</header>
+	<nav>
+  <h2>Content</h2>
+  <ol>
+    <li><a href="/">Home</a></li>
+		{{#if authorised}}
+			{{#if isCustomer}}
+				<li><a href="/techhub">Hub</a></li>
+			{{else}}
+				<li><a href="/custhub">Hub</a></li>
+			{{/if}}
+		{{else}}
+			<li><a href="/login">Hub</a></li>
+		{{/if}}
+		</ol>
+		</nav>
 		{{#if msg}}
  			<aside>
 				<p class="msg">{{msg}}</p>
@@ -35,7 +50,7 @@
 				<p>No job data is stored for your account</p>
 			{{/if}}
 <!-- 		<p>This is a secure page. Users need to have a valid account and be logged in to see it.</p> -->
-		<p><a href="/">Home page</a></p>
+<!-- 		<p><a href="/">Home page</a></p> -->
 		</main>
 	</body>
 </html>

@@ -8,7 +8,7 @@
 		<meta name="description" content="form to add new books">
 		<meta name="author" content="Mark Tyers">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
-		<script type="module" src="../public/main.js"></script>
+		<script type="module" src="{{host}}/main.js"></script>
 	</head>
 	<body>
 		<header>
@@ -19,6 +19,21 @@
 				<a href="/login">Log in</a>
 			{{/if}}
 		</header>
+	<nav>
+  <h2>Content</h2>
+  <ol>
+    <li><a href="/">Home</a></li>
+		{{#if authorised}}
+			{{#if isCustomer}}
+				<li><a href="/techhub">Hub</a></li>
+			{{else}}
+				<li><a href="/custhub">Hub</a></li>
+			{{/if}}
+		{{else}}
+			<li><a href="/login">Hub</a></li>
+		{{/if}}
+		</ol>
+		</nav>
 		{{#if msg}}
  			<aside>
 				<p class="msg">{{msg}}</p>
@@ -26,9 +41,6 @@
 		{{/if}}
 	<main>
 		<p>This is the home page. Users can see it without logging in.</p>
-		{{#if authorised}}
-			<p><a href="/custhub">Customer Hub</a></p>
-		{{/if}}
 	</main>
 	</body>
 </html>

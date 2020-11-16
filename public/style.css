@@ -15,7 +15,7 @@ aside {
 	top: 2em;
 	border: 1px solid red;
 	font-weight: bold;
-	background-color: white;
+	background-color: gray;
 	color: red;
 	padding: 1em;
 	margin: 2em;
@@ -240,4 +240,58 @@ td {
 td:last-child {
 	width: 10vw;
 	text-align: right;
+}
+
+table,
+table td {
+  border: 1px solid #cccccc;
+}
+
+td {
+  height: 80px;
+  width: 160px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* nav, ol, li {
+  display: inline;
+} */
+
+nav {
+  margin: 0;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+}
+
+nav ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ol li {
+  display: inline-block;
+  padding: 1em;
+  cursor: pointer;
+  font-family: quicksand;
+  font-weight: 400;
+}
+
+nav a:link {
+  text-decoration: none;
+  color: black;
+}
+
+nav a:visited {
+  color: black;
+}
+
+nav a:hover {
+	color: gray
+}
+
+nav h2 {
+  display: none;
 }
