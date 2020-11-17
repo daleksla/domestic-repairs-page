@@ -105,7 +105,7 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 			sql = `SELECT count(id) AS new FROM jobs WHERE job="${job}";`
 			records = await this.db.get(sql)
 			if(!records.new) throw new Error(`job "${job}" not found`)
-			else throw new Error(`customer with customerID "${customerID}" not found`)
+			throw new Error(`customer with customerID "${customerID}" not found`)
 		}
 		sql = `UPDATE jobs SET status="${newStatus}" WHERE job="${job}" AND customerID=${customerID};`
 		await this.db.run(sql)

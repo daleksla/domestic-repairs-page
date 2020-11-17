@@ -42,9 +42,7 @@
 					{{#each record}}
 							<form action="/custhub" enctype="multipart/form-data" method="post">
 					<tr>
-<!-- 							<td>{{this.job}}</td> -->
-								<td><input type="text" name="{{body.job}}" value="{{this.job}}" readonly="readonly"><br/></td>
-<!-- 							<td>{{this.status}}</td> -->
+								<td><input type="text" name="{{body.job}}" value="{{this.job}}" readonly="readonly"><br/></td> <!-- this ins't passed-->
 							<td>
 										<select required name="status" value="{{body.status}}">
 											<option value="unassigned" selected="{{this.status1}}">unassigned</option>

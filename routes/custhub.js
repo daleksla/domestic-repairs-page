@@ -15,25 +15,31 @@ async function checkAuth(ctx, next) {
 
 router.use(checkAuth)
 
+async function configureJobs(jobs, currentUserID) {
+	const job = await new Jobs(dbName)
+	for(const aJob of jobs) {
+		const status = await job.getStatus(aJob.job, currentUserID)
+		if(status === 'unassigned') {
+			aJob.status1 = 'selected'
+			aJob.status2 = aJob.status3 = false
+		} else if(status === 'in progress') {
+			aJob.status2 = 'selected'
+			aJob.status1 = aJob.status3 = false
+		} else if(status === 'in progress') {
+			aJob.status3 = 'selected'
+			aJob.status1 = aJob.status2 = false
+		}
+	}
+	return jobs
+}
+
 async function initialiseJobs(ctx) {
 	const account = await new Accounts(dbName)
 	const job = await new Jobs(dbName)
 	const currentUserID = await account.getID(ctx.session.user)
-	const jobs = await job.getJobs(currentUserID)
+	let jobs = await job.getJobs(currentUserID)
 	if(!jobs.includes('No jobs found for customer with customerID "')) {
-		for(const aJob of jobs) {
-			const status = await job.getStatus(aJob.job, currentUserID)
-			if(status === 'unassigned') {
-				aJob.status1 = 'selected'
-				aJob.status2 = aJob.status3 = false
-			} else if(status === 'in progress') {
-				aJob.status2 = 'selected'
-				aJob.status1 = aJob.status3 = false
-			} else if(status === 'in progress') {
-				aJob.status3 = 'selected'
-				aJob.status1 = aJob.status2 = false
-			}
-		}
+		jobs = await configureJobs(jobs, currentUserID)
 		ctx.hbs.record = jobs
 		ctx.hbs.record.status = true
 	} else ctx.hbs.record = jobs
