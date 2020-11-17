@@ -10,6 +10,18 @@ aside {
 	margin: auto;
 }
 
+input:required, textarea:required {
+	border-width: 2.5px;
+}
+
+input:invalid, textarea:invalid {
+	border-color: red;
+}
+
+input:valid, textarea:valid {
+	border-color: green;
+}
+
 .msg {
 	position: fixed;
 	top: 2em;
@@ -208,7 +220,7 @@ dt {
   /* adjust the width; make sure the total of both is 100% */
   /* background: #cc0; */
   padding: 0.5vw;
-  margin: 0
+  margin: 0;
 }
 dd {
   float: left;
@@ -216,7 +228,7 @@ dd {
   /* adjust the width; make sure the total of both is 100% */
 	/* background: #dd0; */
 	padding: 0.5vw;
-  margin: 0
+  margin: 0;
 }
 
 /* ===== TABLES ===== */

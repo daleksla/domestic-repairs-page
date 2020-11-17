@@ -2,10 +2,12 @@
 /* main.js */
 
 window.addEventListener('DOMContentLoaded', event => {
-	console.log('DOMContentLoaded', event)
-	document.querySelector('aside').addEventListener('click', event => {
-		document.getElementById("notification").remove();
-	})
+	console.log('DOMContentLoaded')
+	if(document.querySelector('aside')) {
+		document.querySelector('aside').addEventListener('click', event => {
+			document.getElementById('notification').remove()
+		})
+	}
 	if(document.querySelector('aside')) {
 		const delay = 2500
 		document.querySelector('aside').hidden = false

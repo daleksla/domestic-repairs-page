@@ -15,24 +15,57 @@ async function checkAuth(ctx, next) {
 
 router.use(checkAuth)
 
-router.get('/', async ctx => {
+async function initialiseJobs(ctx) {
 	const account = await new Accounts(dbName)
 	const job = await new Jobs(dbName)
-	const currentUserName = ctx.session.user
-	const currentUserID = await account.getID(currentUserName)
+	const currentUserID = await account.getID(ctx.session.user)
 	const jobs = await job.getJobs(currentUserID)
 	if(!jobs.includes('No jobs found for customer with customerID "')) {
 		for(const aJob of jobs) {
-			aJob.status = await job.getStatus(aJob.job, currentUserID)
+			const status = await job.getStatus(aJob.job, currentUserID)
+			if(status === 'unassigned') {
+				aJob.status1 = 'selected'
+				aJob.status2 = aJob.status3 = false
+			} else if(status === 'in progress') {
+				aJob.status2 = 'selected'
+				aJob.status1 = aJob.status3 = false
+			} else if(status === 'in progress') {
+				aJob.status3 = 'selected'
+				aJob.status1 = aJob.status2 = false
+			}
 		}
 		ctx.hbs.record = jobs
 		ctx.hbs.record.status = true
 	} else ctx.hbs.record = jobs
+	return ctx
+}
+
+router.get('/', async ctx => {
+	ctx = await initialiseJobs(ctx)
 	try {
 		await ctx.render('custhub', ctx.hbs)
 	} catch(err) {
 		ctx.hbs.error = err.message
 		await ctx.render('error', ctx.hbs)
+	}
+})
+
+router.post('/', async ctx => {
+	const account = await new Accounts(dbName)
+	const jobs = await new Jobs(dbName)
+	try {
+		const currentUserName = ctx.session.user
+		const currentUserID = await account.getID(currentUserName)
+		console.log(ctx.request.body.job)
+		console.log(ctx.request.body.status)
+		await jobs.updateStatus(ctx.request.body.job, ctx.request.body.status, currentUserID)
+	} catch(err) {
+		ctx.hbs.msg = err.message
+		ctx.hbs.body = ctx.request.body
+		console.log(ctx.hbs)
+	} finally {
+		ctx.redirect('/custhub')
+		jobs.close()
 	}
 })
 
