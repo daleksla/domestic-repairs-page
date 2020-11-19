@@ -25,6 +25,7 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 			return this
 		})()
 	}
+
 	/**
 	 * registers a new user
 	 * @param {String} job the chosen job name
