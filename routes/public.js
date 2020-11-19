@@ -6,10 +6,11 @@ const router = new Router()
 router.use(bodyParser({multipart: true}))
 
 import Accounts from '../modules/accounts.js'
+// import Jobs from '../modules/jobs.js'
 const dbName = 'website.db'
 
 /**
- * The secure home page.
+ * The custhub home page.
  *
  * @name Home Page
  * @route {GET} /
@@ -38,10 +39,10 @@ router.get('/register', async ctx => await ctx.render('register'))
  * @route {POST} /register
  */
 router.post('/register', async ctx => {
-	const account = await new Accounts(dbName)
+	const acc = await new Accounts(dbName)
 	try {
 		// call the functions in the module
-		await account.register(ctx.request.body.user, ctx.request.body.pass, ctx.request.body.email)
+		await acc.register(ctx.request.body.user, ctx.request.body.pass, ctx.request.body.type, ctx.request.body.email)
 		ctx.redirect(`/login?msg=new user "${ctx.request.body.user}" added, you need to log in`)
 	} catch(err) {
 		ctx.hbs.msg = err.message
@@ -49,7 +50,7 @@ router.post('/register', async ctx => {
 		console.log(ctx.hbs)
 		await ctx.render('register', ctx.hbs)
 	} finally {
-		account.close()
+		acc.close()
 	}
 })
 
@@ -65,7 +66,10 @@ router.post('/login', async ctx => {
 		const body = ctx.request.body
 		await account.login(body.user, body.pass)
 		ctx.session.authorised = true
-		const referrer = body.referrer || '/secure'
+		ctx.session.user = body.user
+		const accountType = await account.getType(ctx.session.user)
+		ctx = modifyContext(ctx, accountType, body)[0]
+		const referrer = modifyContext(ctx, accountType, body)[1]
 		return ctx.redirect(`${referrer}?msg=you are now logged in...`)
 	} catch(err) {
 		ctx.hbs.msg = err.message
@@ -74,6 +78,18 @@ router.post('/login', async ctx => {
 		account.close()
 	}
 })
+
+function modifyContext(ctx, accountType, body) {
+	let referrer = ''
+	if(accountType === 'customer') {
+		referrer = body.referrer || '/custhub'
+		ctx.hbs.isCustomer = true
+	} else if(accountType === 'technician') {
+		referrer = body.referrer || '/techhub'
+		ctx.hbs.isCustomer = false
+	} else throw new Error('Invalid account')
+	return [ctx, referrer]
+}
 
 router.get('/logout', async ctx => {
 	ctx.session.authorised = null

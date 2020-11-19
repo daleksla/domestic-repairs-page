@@ -137,12 +137,12 @@ test('LOGIN : invalid password', async test => {
 	}
 })
 
-test('GET : invalid username', async test => {
+test('GET TYPE : invalid username', async test => {
 	test.plan(1)
 	const account = await new Accounts()
 	try {
 		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
-		await account.login('roej', 'password')
+		await account.getType('roej')
 		test.fail('error not thrown')
 	} catch(err) {
 		test.is(err.message, 'username "roej" not found', 'incorrect error message')
@@ -151,7 +151,7 @@ test('GET : invalid username', async test => {
 	}
 })
 
-test('GET : type retrieval', async test => {
+test('GET TYPE : type retrieval', async test => {
 	test.plan(2)
 	const account = await new Accounts()
 	await account.register('testing', 'testing', 'customer', 'testing@outlook.com')
@@ -160,5 +160,52 @@ test('GET : type retrieval', async test => {
 	await account.register('tester', 'tester', 'technician', 'testingagain@outlook.com')
 	value = await account.getType('tester')
 	test.is(value, 'technician')
+	account.close()
+})
+
+test('GET USERNAME : invalid id', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	try {
+		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+		await account.getUsername(2)
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'id "2" not found', 'incorrect error message')
+	} finally {
+		account.close()
+	}
+})
+
+test('GET USERNAME : username retrieval', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	await account.register('testing', 'testing', 'customer', 'testing@outlook.com')
+	let value = await account.getID('testing')
+	value = await account.getUsername(value)
+	test.is(value, 'testing')
+	account.close()
+})
+
+test('GET ID : invalid username', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	try {
+		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+		await account.getID('rej')
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'user "rej" not found', 'incorrect error message')
+	} finally {
+		account.close()
+	}
+})
+
+test('GET ID : id retrieval', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	await account.register('testing', 'testing', 'customer', 'testing@outlook.com')
+	const value = await account.getID('testing')
+	test.is(value, 1)
 	account.close()
 })

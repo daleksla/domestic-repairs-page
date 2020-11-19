@@ -2,7 +2,7 @@
 body {
 		font-family: Arial, Helvetica, sans-serif;
 		margin: 0;
-	}
+}
 
 /* formats the red message boxes */
 aside {
@@ -10,12 +10,24 @@ aside {
 	margin: auto;
 }
 
+input:required, textarea:required {
+	border-width: 2.5px;
+}
+
+input:invalid, textarea:invalid {
+	border-color: red;
+}
+
+input:valid, textarea:valid {
+	border-color: green;
+}
+
 .msg {
 	position: fixed;
 	top: 2em;
 	border: 1px solid red;
 	font-weight: bold;
-	background-color: white;
+	background-color: gray;
 	color: red;
 	padding: 1em;
 	margin: 2em;
@@ -73,14 +85,20 @@ p, legend {
 
 main {
 	width: 100%;
-	margin-left: 3vw;
+	margin: auto;
+	margin-top: 2em;
+	padding: 2em;
+	box-sizing: border-box;
+	background-color: lightgray ;
+	
 	/* background-color: pink; */
 }
 
+
 article {
 	width: 50vw;
-	/* background-color: grey;
-	float: left; */
+	background-color: grey;
+/* 	float: left;  */
 }
 
 aside {
@@ -202,7 +220,7 @@ dt {
   /* adjust the width; make sure the total of both is 100% */
   /* background: #cc0; */
   padding: 0.5vw;
-  margin: 0
+  margin: 0;
 }
 dd {
   float: left;
@@ -210,7 +228,7 @@ dd {
   /* adjust the width; make sure the total of both is 100% */
 	/* background: #dd0; */
 	padding: 0.5vw;
-  margin: 0
+  margin: 0;
 }
 
 /* ===== TABLES ===== */
@@ -235,3 +253,63 @@ td:last-child {
 	width: 10vw;
 	text-align: right;
 }
+
+table,
+table td {
+  border: 1px solid #cccccc;
+}
+
+td {
+  height: 80px;
+  width: 160px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* nav, ol, li {
+  display: inline;
+} */
+
+nav {
+  margin: 0;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+}
+
+nav ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ol li {
+  display: inline-block;
+  padding: 1em;
+  cursor: pointer;
+  font-family: quicksand;
+  font-weight: 400;
+}
+
+nav a:link {
+  text-decoration: none;
+  color: black;
+}
+
+nav a:visited {
+  color: black;
+}
+
+nav a:hover {
+	color: gray;
+}
+
+nav h2 {
+  display: none;
+}
+
+/* #target {
+    height: 100px;
+    background-color: gray;
+    transition: opacity 1s;
+} */
