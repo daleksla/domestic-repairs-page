@@ -21,13 +21,13 @@ async function configureJobs(jobs, currentUserID) {
 		const status = await job.getStatus(aJob.job, currentUserID)
 		if(status === 'unassigned') {
 			aJob.status1 = 'selected'
-			aJob.status2 = aJob.status3 = false
+			aJob.status2 = aJob.status3 = ''
 		} else if(status === 'in progress') {
 			aJob.status2 = 'selected'
-			aJob.status1 = aJob.status3 = false
+			aJob.status1 = aJob.status3 = ''
 		} else if(status === 'in progress') {
 			aJob.status3 = 'selected'
-			aJob.status1 = aJob.status2 = false
+			aJob.status1 = aJob.status2 = ''
 		}
 	}
 	return jobs
@@ -42,6 +42,7 @@ async function initialiseJobs(ctx) {
 		jobs = await configureJobs(jobs, currentUserID)
 		ctx.hbs.record = jobs
 		ctx.hbs.record.status = true
+		ctx.hbs.record.job = true
 	} else ctx.hbs.record = jobs
 	return ctx
 }

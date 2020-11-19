@@ -42,12 +42,13 @@
 					{{#each record}}
 							<form action="/custhub" enctype="multipart/form-data" method="post">
 					<tr>
-								<td><input type="text" name="{{body.job}}" value="{{this.job}}" readonly="readonly"><br/></td> <!-- this ins't passed-->
-							<td>
-										<select required name="status" value="{{body.status}}">
-											<option value="unassigned" selected="{{this.status1}}">unassigned</option>
-											<option value="in progress" selected="{{this.status2}}">in progress</option>
-											<option value="resolved" selected="{{this.status3}}">resolved</option>
+						<td><h2>{{this.job}}</h2></td>
+						<input type="hidden" name="job" value="{{this.job}}"><br/> <!-- hidden field to store our values-->
+						<td>
+										<select required name="status" value="status">
+											<option value="unassigned" {{this.status1}} >unassigned</option>
+											<option value="in progress" {{this.status2}} >in progress</option>
+											<option value="resolved" {{this.status3}}>resolved</option>
 										</select>
 							</td>
 							<td><p><input type="submit" value="Submit changes"></p></td>
