@@ -40,12 +40,7 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 		if( !(status === 'unassigned' || status === 'in progress' || status === 'resolved') ) {
 			throw new Error(`status "${status}" is invalid`)
 		}
-		let sql = `SELECT COUNT(id) AS count FROM jobs WHERE job="${job}" AND customerID=${customerID};`
-		const data = await this.db.get(sql)
-		if(Number(data.count) !== 0) {//check if job with same name by same person exists
-			throw new Error(`The job "${job}" for customer with customerID "${customerID}" already exists`)
-		}
-		sql = `INSERT INTO jobs(job, status, customerID) VALUES("${job}", "${status}", "${customerID}");`
+		const sql = `INSERT INTO jobs(job, status, customerID) VALUES("${job}", "${status}", "${customerID}");`
 		await this.db.run(sql)
 		return true
 	}
@@ -73,6 +68,28 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 	}
 	/**
 	 * checks to return the job status
+	 * @param {String} job the job name to check
+	 * @param {Number} customerID the ID of the customer to check
+	 * @returns {Number} id of the job
+	 */
+	async getID(job, customerID) {
+		let sql = `SELECT count(id) AS count FROM jobs WHERE job="${job}" AND customerID=${customerID};`
+		let records = await this.db.get(sql)
+		if(!records.count) {
+			sql = `SELECT count(id) AS count FROM jobs WHERE job="${job}";`
+			records = await this.db.get(sql)
+			if(!records.count) {
+				throw new Error(`job "${job}" not found`)
+			} else {
+				throw new Error(`customer with customerID "${customerID}" not found`)
+			}
+		}
+		sql = `SELECT id FROM jobs WHERE job="${job}" AND customerID=${customerID};`
+		const object = await this.db.get(sql) //it returns an object, not value alone
+		return object.id
+	}
+	/**
+	 * checks to return the job status
 	 * @param {Number} customerID the ID of the customer to check
 	 * @returns {Object} the jobs associated with that customerID
 	 */
@@ -97,9 +114,6 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 		Array.from(arguments).forEach( val => {
 			if(val.length === 0) throw new Error('missing field')
 		})
-		if( !(newStatus === 'unassigned' || newStatus === 'in progress' || newStatus === 'resolved') ) {
-			throw new Error(`status "${newStatus}" is invalid`)
-		}
 		let sql = `SELECT count(id) AS count FROM jobs WHERE job="${job}" AND customerID=${customerID};`
 		let records = await this.db.get(sql)
 		if(!records.count) {

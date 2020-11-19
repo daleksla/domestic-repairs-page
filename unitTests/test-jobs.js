@@ -3,25 +3,6 @@ import test from 'ava'
 import Jobs from '../modules/jobs.js'
 import Accounts from '../modules/accounts.js'
 
-test('REGISTER : register two of the same job with the same account', async test => {
-	test.plan(1)
-	const account = await new Accounts()
-	const job = await new Jobs()
-	try {
-		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
-		const accountID = await account.getID('doej')
-		await job.register('fridge', 'unassigned', accountID)
-		await job.register('fridge', 'unassigned', accountID)
-		test.fail('error not thrown')
-	} catch(err) {
-		test.is(err.message, 'The job "fridge" for customer with customerID "1" already exists',
-			'incorrect error message')
-	} finally {
-		account.close()
-		job.close()
-	}
-})
-
 test('REGISTER : error if blank job', async test => {
 	test.plan(1)
 	const account = await new Accounts()
@@ -178,24 +159,6 @@ test('UPDATE STATUS : error if blank customerID', async test => {
 		test.fail('error not thrown')
 	} catch(err) {
 		test.is(err.message, 'missing field', 'incorrect error message')
-	} finally {
-		account.close()
-		job.close()
-	}
-})
-
-test('UPDATE STATUS : error if invalid status', async test => {
-	test.plan(1)
-	const account = await new Accounts()
-	const job = await new Jobs()
-	try {
-		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
-		const accountID = await account.getID('doej')
-		await job.register('fridge', 'unassigned', accountID)
-		await job.updateStatus('fridge', 'random', accountID)
-		test.fail('error not thrown')
-	} catch(err) {
-		test.is(err.message, 'status "random" is invalid', 'incorrect error message')
 	} finally {
 		account.close()
 		job.close()
