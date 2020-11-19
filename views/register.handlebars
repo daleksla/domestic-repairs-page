@@ -8,31 +8,53 @@
 		<meta name="description" content="form to add new books">
 		<meta name="author" content="Mark Tyers">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
-		<script type="module" src="main.js"></script>
+		<script type="module" src="{{host}}/main.js"></script>
 	</head>
 	<body>
 		<header>
 		<h1>Create an Account</h1>
 		<a href="/login">Log in</a>
 		</header>
+	<nav>
+  <h2>Content</h2>
+  <ol>
+    <li><a href="/">Home</a></li>
+		{{#if authorised}}
+			{{#if isCustomer}}
+				<li><a href="/techhub">Hub</a></li>
+			{{else}}
+				<li><a href="/custhub">Hub</a></li>
+			{{/if}}
+		{{else}}
+			<li><a href="/login">Hub</a></li>
+		{{/if}}
+		</ol>
+		</nav>
 		{{#if msg}}
  			<aside>
-				<p class="msg">{{msg}}</p>
+				<p id="notification" class="msg">{{msg}}</p>
 			</aside>
 		{{/if}}
 		<main>
-		<form action="/register" enctype="multipart/form-data" method="post">
+		<form action="/register" autocomplete="off" enctype="multipart/form-data" method="post">
 			<p>
 				<label for="user">Username</label><br />
-				<input type="text" name="user" placeholder="your preferred username (no spaces)" value="{{body.user}}">
+				<input autocomplete="off" type="text" name="user" required="true" autofocus data-message="Username required" placeholder="your preferred username (no spaces)" value="{{body.user}}">
 			</p>
 			<p>
 				<label for="pass">Password</label><br />
-				<input type="password" name="pass" placeholder="your chosen password" value="{{body.pass}}">
+				<input autocomplete="off" type="password" name="pass" required="true" data-message="Password required" minlength="4" placeholder="your chosen password" value="{{body.pass}}">
 			</p>
+		<label>
+			<p>Account Type</p>
+      <select required name="type" value="{{body.type}}">
+        <option value="customer">Customer</option>
+        <option value="technician">Technician</option>
+      </select>
+    </label>
 			<p>
 				<label for="email">Email</label><br />
-				<input type="email" name="email" placeholder="a valid email address" value="{{body.email}}">
+				<input autocomplete="off" type="email" name="email" required="true" data-message="Email required" placeholder="a valid email address" value="{{body.email}}">
 			</p>
 			<p><input type="submit" value="Create"></p>
 		</form>

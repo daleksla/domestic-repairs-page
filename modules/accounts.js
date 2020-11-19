@@ -25,11 +25,11 @@ class Accounts {
 			return this
 		})()
 	}
-
 	/**
 	 * registers a new user
 	 * @param {String} user the chosen username
 	 * @param {String} pass the chosen password
+	 * @param {String} type the account type
 	 * @param {String} email the chosen email
 	 * @returns {Boolean} returns true if the new user has been added
 	 */
@@ -65,7 +65,11 @@ class Accounts {
 		if(valid === false) throw new Error(`invalid password for account "${username}"`)
 		return true
 	}
-
+	/**
+	 * checks to return the account type
+	 * @param {String} username the username to check
+	 * @returns {String} type of account
+	 */
 	async getType(username) {
 		let sql = `SELECT count(id) AS count FROM users WHERE user="${username}";`
 		const records = await this.db.get(sql)
@@ -74,6 +78,32 @@ class Accounts {
 		const object = await this.db.get(sql) //it returns an object, not value alone
 		return String(object.type)
 	}
+	/**
+	 * checks to return the username of a given (user) id
+	 * @param {Number} id the id of the user to check
+	 * @returns {String} name of user account
+	 */
+	async getUsername(id) {
+		let sql = `SELECT count(id) AS count FROM users WHERE id="${id}";`
+		const records = await this.db.get(sql)
+		if(!records.count) throw new Error(`id "${id}" not found`)
+		sql = `SELECT user FROM users WHERE id="${id}";`
+		const object = await this.db.get(sql) //it returns an object, not value alone
+		return String(object.user)
+	}
+	/**
+	 * checks to return the id of a given username
+	 * @param {String} the username of an account
+	 * @returns {Number} id of user account
+	 */
+	async getID(username) {
+		let sql = `SELECT count(id) AS count FROM users WHERE user="${username}";`
+		const records = await this.db.get(sql)
+		if(records.count === 0) throw new Error(`user "${username}" not found`)
+		sql = `SELECT id FROM users WHERE user="${username}";`
+		const object = await this.db.get(sql) //it returns an object, not value alone
+		return Number(object.id)
+	}
 
 	async close() {
 		await this.db.close()
@@ -81,8 +111,3 @@ class Accounts {
 }
 
 export default Accounts
-
-// const account = await new Accounts()
-// await account.register('daleksla', 'COUNTolaf@16', 'customer', 'daleksla@outlook.com')
-// const value = await account.getType('daleksla')
-// console.log(value)
