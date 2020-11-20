@@ -1,4 +1,4 @@
-name: Deploy master branch
+name: Deploy master branch to Cloud
 on:
   push:
     branches:
@@ -19,4 +19,4 @@ jobs:
     - name: Release
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release -a domestic-repairs-page web 
+      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
