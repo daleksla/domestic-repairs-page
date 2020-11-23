@@ -18,7 +18,8 @@ class Jobs {
 			this.db = await sqlite.open(dbName)
 			await new Accounts()
 			const sql = 'CREATE TABLE IF NOT EXISTS jobs(\
-id INTEGER PRIMARY KEY AUTOINCREMENT, job TEXT, status TEXT, customerID INTEGER,\
+id INTEGER PRIMARY KEY AUTOINCREMENT, job TEXT,\
+status TEXT, age TEXT, manufacturer TEXT, fault TEXT, customerID INTEGER,\
 FOREIGN KEY(customerID) REFERENCES users(id)\
 );'
 			await this.db.run(sql)
@@ -30,17 +31,24 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 	 * registers a new user
 	 * @param {String} job the chosen job name
 	 * @param {String} status the state of the job
+	 * @param {Number} age the age of appliance
+	 * @param {String} manufacturer the manufacturer of said appliance
+	 * @param {String} fault the issue with said appliance
 	 * @param {Number} customerID the ID of the customer requesting the job
 	 * @returns {Boolean} returns true if the new user has been added
 	 */
-	async register(job, status, customerID) {
+	async register(job, status, age, manufacturer, fault, customerID) {
 		Array.from(arguments).forEach( val => {
 			if(val.length === 0) throw new Error('missing field')
 		})
 		if( !(status === 'unassigned' || status === 'in progress' || status === 'resolved') ) {
 			throw new Error(`status "${status}" is invalid`)
 		}
-		const sql = `INSERT INTO jobs(job, status, customerID) VALUES("${job}", "${status}", "${customerID}");`
+		const maxAge = 10
+		const minAge = 0
+		if(age > maxAge || age < minAge) throw new Error(`age "${age}" is invalid`)
+		const sql = `INSERT INTO jobs(job, status, age, manufacturer, fault, customerID)\
+VALUES("${job}", "${status}", "${age}", "${fault}", "${manufacturer}", "${customerID}");`
 		await this.db.run(sql)
 		return true
 	}
