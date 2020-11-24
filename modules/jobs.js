@@ -26,7 +26,25 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 			return this
 		})()
 	}
-
+	/**
+	 * checks if any of the functions parameters are blank
+	 * @param {Array} the values given to the function
+	 * @returns {Boolean} if no value was left blank
+	 */
+	checkMissingParameters(values) {
+		for(const value of values) if(value.length === 0) throw new Error('missing field')
+		return true
+	}
+	/**
+	 * checks if the status is of a valid type
+	 * @param {String} status the status of the job
+	 * @returns {Boolean} if status is valid
+	 */
+	checkStatus(status) {
+		if( !(status === 'unassigned' || status === 'in progress' || status === 'resolved') ) {
+			throw new Error(`status "${status}" is invalid`)
+		} else return true
+	}
 	/**
 	 * registers a new user
 	 * @param {String} job the chosen job name
@@ -38,12 +56,8 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 	 * @returns {Boolean} returns true if the new user has been added
 	 */
 	async register(job, status, age, manufacturer, fault, customerID) {
-		Array.from(arguments).forEach( val => {
-			if(val.length === 0) throw new Error('missing field')
-		})
-		if( !(status === 'unassigned' || status === 'in progress' || status === 'resolved') ) {
-			throw new Error(`status "${status}" is invalid`)
-		}
+		this.checkMissingParameters(arguments)
+		this.checkStatus(status)
 		const maxAge = 10
 		const minAge = 0
 		if(age > maxAge || age < minAge) throw new Error(`age "${age}" is invalid`)
@@ -119,9 +133,8 @@ VALUES("${job}", "${status}", "${age}", "${fault}", "${manufacturer}", "${custom
 	 * @returns {Boolean} returns true if the job has been updated
 	 */
 	async updateStatus(job, newStatus, customerID) {
-		Array.from(arguments).forEach( val => {
-			if(val.length === 0) throw new Error('missing field')
-		})
+		this.checkMissingParameters(arguments)
+		this.checkStatus(newStatus)
 		let sql = `SELECT count(id) AS count FROM jobs WHERE job="${job}" AND customerID=${customerID};`
 		let records = await this.db.get(sql)
 		if(!records.count) {
