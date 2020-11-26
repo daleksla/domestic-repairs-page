@@ -9,8 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dpl tool
+      - name: Install needed packages
         run: sudo apt install -y psmisc lsof tree sqlite3 sqlite3-doc build-essential gcc g++ make ruby-dev
+      - name: Install dpl tool
         run: sudo gem install dpl
       - name: Push to cloud
         run: dpl --provider=heroku --app=${{secrets.HEROKU_API_NAME}} --api-key=${{secrets.HEROKU_API_KEY}}
