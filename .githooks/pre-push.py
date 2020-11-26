@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import subprocess
 from subprocess import check_output
 import sys
 
@@ -10,8 +11,12 @@ def main():
 	branch = check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD']) #here we call the terminal and store the output
 	if branch == b'master\n': #if the output shows it's the master branch
 		print("You seldomly should push the master branch to the Server")
-		choice = str(input("Would you like to proceed? [Y/N]"))
-		if choice != 'Y':
+		print("Would you like to proceed? [Y/N]")
+		sys.stdin = open("/dev/tty", "r")
+		user_input = subprocess.check_output("read -p \"< \" userinput && echo \"$userinput\"", shell=True, stdin=sys.stdin).rstrip()
+		user_input = str(user_input)
+		user_input = user_input.lower()
+		if user_input != 'y':
 			return 1
 	return 0
 		

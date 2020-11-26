@@ -1,0 +1,75 @@
+
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Report Issue</title>
+		<meta name="description" content="form to add new books">
+		<meta name="author" content="Mark Tyers">
+		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+		<script type="module" src="{{host}}/main.js"></script>
+	</head>
+	<body>
+		<header>
+		<h1>Report Issue</h1>
+			<a href="/logout">Log out</a>
+		</header>
+	<nav>
+  <h2>Content</h2>
+  <ol>
+    <li><a href="/">Home</a></li>
+		{{#if authorised}}
+			{{#if isCustomer}}
+				<li><a href="/techhub">Hub</a></li>
+			{{else}}
+				<li><a href="/custhub">Hub</a></li>
+		{{/if}}
+		{{else}}
+			<li><a href="/login">Hub</a></li>
+		{{/if}}
+		</ol>
+		</nav>
+		{{#if msg}}
+ 			<aside>
+				<p id="notification" class="msg">{{msg}}</p>
+			</aside>
+		{{/if}}
+		<main>
+			<form action="/custhub/reportIssue" autocomplete="off" enctype="multipart/form-data" method="post">
+			<label>
+				<p>Appliance Type</p>
+				<select required name="type" value="{{body.type}}">
+					<option value="fridge">Fridge</option>
+					<option value="microwave">Microwave</option>
+					<option value="freezer">Freezer</option>
+					<option value="boiler">Boiler</option>
+					<option value="washing machine">Washing Machine</option>
+					<option value="tumble dryer">Tumble Dryer</option>
+				</select>
+			</label>
+				<p>
+					<label for="quantity">Age of Appliance</label><br />
+					<input autocomplete="off" type="number" name="age" required="true" data-message="Appliance's age required" min="0" max="10" placeholder="Your appliance's age (in years)" value="{{body.age}}">
+				</p>
+			<label>
+				<p>Manufacturer</p>
+				<select required name="manufacturer" value="{{body.manufacturer}}">
+					<option value="Bosch">Bosch</option>
+					<option value="Philips">Philips</option>
+					<option value="Dyson">Dyson</option>
+					<option value="Hotpoint">Hotpoint</option>
+					<option value="Kenwood">Kenwood</option>
+				</select>
+			</label>
+				<p>
+					<label>
+						<p>Fault description</p>
+					<textarea required="true" name="description" value="{{body.description}}" data-message="Description of fault required" minlength="15" placeholder="Why you are reporting an issue" rows="4" cols="50"></textarea>
+					</label>			
+			</p>
+				<p><input type="submit" value="Create"></p>
+			</form>
+		</main>
+	</body>
+</html>

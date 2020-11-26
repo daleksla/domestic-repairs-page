@@ -1,22 +1,20 @@
-name: Deploy master branch
+name: Deploy to Heroku (Cloud)
 on:
   push:
     branches:
       - master
+      - main
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Login to Heroku Container registry
-      env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login 
-    - name: Build and push
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push -a domestic-repairs-page web 
-    - name: Release
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release -a domestic-repairs-page web 
+      - uses: actions/checkout@v2
+      - name: Install needed packages
+        run: sudo apt install -y psmisc lsof tree sqlite3 sqlite3-doc build-essential gcc g++ make ruby-dev
+      - name: Install dpl tool
+        run: sudo gem install dpl
+      - name: Push to cloud
+        run: dpl --provider=heroku --app=${NAME} --api-key=${KEY}
+        env:
+          NAME: ${{ secrets.ENVIRONMENT_VARIABLE_NAME }}
+          KEY: ${{ secrets.HEROKU_API_KEY }}
