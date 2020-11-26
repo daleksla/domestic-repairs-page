@@ -17,4 +17,4 @@ jobs:
         run: dpl --provider=heroku --app=${NAME} --api-key=${KEY}
         env:
           NAME: ${{ secrets.ENVIRONMENT_VARIABLE_NAME }}
-					KEY: ${{ secrets.HEROKU_API_KEY }}
+          KEY: ${{ secrets.HEROKU_API_KEY }}
