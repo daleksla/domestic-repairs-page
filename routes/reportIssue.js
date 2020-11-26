@@ -22,11 +22,11 @@ router.post('/custhub/reportIssue', async ctx => {
 	const acc = await new Accounts(dbName)
 	try {
 		const id = await acc.getID(ctx.session.user)
-		const v=[ctx.request.body.type,ctx.request.body.age,ctx.request.body.manufacturer,ctx.request.body.description]
+		const c = ctx
+		const v=[c.request.body.type,[c.request.body.age,c.request.body.manufacturer,c.request.body.description]]
 		const state = 'unassigned'
 		const y = 1
-		const z = y++
-		await jobs.register(v[y--], state, v[y], v[z], v[z++], id)
+		await jobs.register(v[y--], state, v[y], id)
 		ctx.redirect(`/custhub?msg=report for appliance "${ctx.request.body.type}" has been added`)
 	} catch(err) {
 		ctx.hbs.msg = err.message

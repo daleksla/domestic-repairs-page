@@ -32,7 +32,9 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 	 * @returns {Boolean} if no value was left blank
 	 */
 	checkMissingParameters(values) {
-		for(const value of values) if(value.length === 0) throw new Error('missing field')
+		for(const value of values) {
+			if(value.length === 0) throw new Error('missing field')
+		}
 		return true
 	}
 	/**
@@ -55,14 +57,18 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 	 * @param {Number} customerID the ID of the customer requesting the job
 	 * @returns {Boolean} returns true if the new user has been added
 	 */
-	async register(job, status, age, manufacturer, fault, customerID) {
-		this.checkMissingParameters(arguments)
+	async register(job, status, report, customerID) {//age, manufacturer, fault = report[] array
+		const one = 1
+		const age = report[one - one]
+		const manufacturer = report[one]
+		const fault = report[one + one]
+		this.checkMissingParameters([job, status, age, manufacturer, fault, customerID])
 		this.checkStatus(status)
 		const maxAge = 10
 		const minAge = 0
 		if(age > maxAge || age < minAge) throw new Error(`age "${age}" is invalid`)
 		const sql = `INSERT INTO jobs(job, status, age, manufacturer, fault, customerID)\
-VALUES("${job}", "${status}", "${age}", "${fault}", "${manufacturer}", "${customerID}");`
+VALUES("${job}", "${status}", "${age}", "${manufacturer}", "${fault}", "${customerID}");`
 		await this.db.run(sql)
 		return true
 	}
