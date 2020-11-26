@@ -1,4 +1,4 @@
-name: Deploy to Cloud
+name: Deploy to Heroku (Cloud)
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dpl tool
-         run: sudo apt install -y psmisc lsof tree sqlite3 sqlite3-doc build-essential gcc g++ make ruby-dev
-         run: sudo gem install dpl
+        run: sudo apt install -y psmisc lsof tree sqlite3 sqlite3-doc build-essential gcc g++ make ruby-dev
+        run: sudo gem install dpl
       - name: Push to cloud
         run: dpl --provider=heroku --app=${{secrets.HEROKU_API_NAME}} --api-key=${{secrets.HEROKU_API_KEY}}
