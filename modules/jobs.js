@@ -59,9 +59,12 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 	 */
 	async register(job, status, report, customerID) {//age, manufacturer, fault = report[] array
 		const one = 1
-		const age = report[one - one]
-		const manufacturer = report[one]
-		const fault = report[one + one]
+		let age, manufacturer, fault = ''
+		if(report.length === one + one + one) {
+			age = report[one - one]
+			manufacturer = report[one]
+			fault = report[one + one]
+		} else throw new Error('missing field')
 		this.checkMissingParameters([job, status, age, manufacturer, fault, customerID])
 		this.checkStatus(status)
 		const maxAge = 10
