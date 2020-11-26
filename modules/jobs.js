@@ -18,29 +18,60 @@ class Jobs {
 			this.db = await sqlite.open(dbName)
 			await new Accounts()
 			const sql = 'CREATE TABLE IF NOT EXISTS jobs(\
-id INTEGER PRIMARY KEY AUTOINCREMENT, job TEXT, status TEXT, customerID INTEGER,\
+id INTEGER PRIMARY KEY AUTOINCREMENT, job TEXT,\
+status TEXT, age TEXT, manufacturer TEXT, fault TEXT, customerID INTEGER,\
 FOREIGN KEY(customerID) REFERENCES users(id)\
 );'
 			await this.db.run(sql)
 			return this
 		})()
 	}
-
+	/**
+	 * checks if any of the functions parameters are blank
+	 * @param {Array} the values given to the function
+	 * @returns {Boolean} if no value was left blank
+	 */
+	checkMissingParameters(values) {
+		for(const value of values) {
+			if(value.length === 0) throw new Error('missing field')
+		}
+		return true
+	}
+	/**
+	 * checks if the status is of a valid type
+	 * @param {String} status the status of the job
+	 * @returns {Boolean} if status is valid
+	 */
+	checkStatus(status) {
+		if( !(status === 'unassigned' || status === 'in progress' || status === 'resolved') ) {
+			throw new Error(`status "${status}" is invalid`)
+		} else return true
+	}
 	/**
 	 * registers a new user
 	 * @param {String} job the chosen job name
 	 * @param {String} status the state of the job
+	 * @param {Number} age the age of appliance
+	 * @param {String} manufacturer the manufacturer of said appliance
+	 * @param {String} fault the issue with said appliance
 	 * @param {Number} customerID the ID of the customer requesting the job
 	 * @returns {Boolean} returns true if the new user has been added
 	 */
-	async register(job, status, customerID) {
-		Array.from(arguments).forEach( val => {
-			if(val.length === 0) throw new Error('missing field')
-		})
-		if( !(status === 'unassigned' || status === 'in progress' || status === 'resolved') ) {
-			throw new Error(`status "${status}" is invalid`)
-		}
-		const sql = `INSERT INTO jobs(job, status, customerID) VALUES("${job}", "${status}", "${customerID}");`
+	async register(job, status, report, customerID) {//age, manufacturer, fault = report[] array
+		const one = 1
+		let age, manufacturer, fault = ''
+		if(report.length === one + one + one) {
+			age = report[one - one]
+			manufacturer = report[one]
+			fault = report[one + one]
+		} else throw new Error('missing field')
+		this.checkMissingParameters([job, status, age, manufacturer, fault, customerID])
+		this.checkStatus(status)
+		const maxAge = 10
+		const minAge = 0
+		if(age > maxAge || age < minAge) throw new Error(`age "${age}" is invalid`)
+		const sql = `INSERT INTO jobs(job, status, age, manufacturer, fault, customerID)\
+VALUES("${job}", "${status}", "${age}", "${manufacturer}", "${fault}", "${customerID}");`
 		await this.db.run(sql)
 		return true
 	}
@@ -111,9 +142,8 @@ FOREIGN KEY(customerID) REFERENCES users(id)\
 	 * @returns {Boolean} returns true if the job has been updated
 	 */
 	async updateStatus(job, newStatus, customerID) {
-		Array.from(arguments).forEach( val => {
-			if(val.length === 0) throw new Error('missing field')
-		})
+		this.checkMissingParameters(arguments)
+		this.checkStatus(newStatus)
 		let sql = `SELECT count(id) AS count FROM jobs WHERE job="${job}" AND customerID=${customerID};`
 		let records = await this.db.get(sql)
 		if(!records.count) {
