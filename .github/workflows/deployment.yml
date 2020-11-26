@@ -2,8 +2,8 @@ name: Deploy to Cloud
 on:
   push:
     branches:
-			- master
-			- main
+	    - master
+	    - main
 jobs:
   build:
     runs-on: ubuntu-latest

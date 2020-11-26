@@ -2,8 +2,8 @@ name: Syntax & Testing #give this pipeline an actual name
 on:
   push:
     branches-ignore:
-			- master
-			- main
+	- master
+	- main
 jobs:
   Linter: #first test - called "Linter"
     runs-on: ubuntu-latest
@@ -28,7 +28,7 @@ jobs:
       - name: Run Test Suite
         run: npm test
   auto-pull-request:
-		needs: [Linter, Unit-Tests]
+    needs: [Linter, Unit-Tests]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
