@@ -2,7 +2,7 @@
 /** @module TechDetails */
 
 import sqlite from 'sqlite-async'
-// import Accounts from './accounts.js'
+import Accounts from './accounts.js'
 
 /**
  * TechDetails
@@ -37,10 +37,7 @@ FOREIGN KEY(techID) REFERENCES users(id)\
 		Array.from(arguments).forEach( val => {
 			if(val.length === 0) throw new Error('missing field')
 		})
-		let sql = `SELECT COUNT(id) as count FROM users WHERE id=${techID};`
-		const data = await this.db.get(sql)
-		if(data.count === 0) throw new Error(`ID "${techID}" not found`)
-		sql = `INSERT INTO techDetails(techID, phone, address) VALUES(${techID}, ${phone}, "${address}")`
+		const sql = `INSERT INTO techDetails(techID, phoneNumber, address) VALUES(${techID}, ${phone}, "${address}")`
 		await this.db.run(sql)
 		return true
 	}
@@ -50,11 +47,10 @@ FOREIGN KEY(techID) REFERENCES users(id)\
 	 * @returns {Object} returns an object storing phone number and address
 	 */
 	async getDetails(techID) {
-		if( techID === '' ) throw new Error('Technician ID is missng')
-		let sql = `SELECT COUNT(id) as count FROM users WHERE id=${techID};`
-		const data = await this.db.get(sql)
-		if(data.count === 0) throw new Error(`ID "${techID}" not found`)
-		sql = `SELECT address, phoneNumber FROM techDetails WHERE id=${techID};`
+		Array.from(arguments).forEach( val => {
+			if(val.length === 0) throw new Error('missing field')
+		})
+		const sql = `SELECT address, phoneNumber FROM techDetails WHERE id=${techID};`
 		const object = await this.db.get(sql) //it returns an object, not value alone
 		return object
 	}
