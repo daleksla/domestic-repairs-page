@@ -2,7 +2,6 @@
 /** @module TechDetails */
 
 import sqlite from 'sqlite-async'
-import Accounts from './accounts.js'
 
 /**
  * TechDetails

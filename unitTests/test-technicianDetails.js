@@ -96,7 +96,7 @@ test('GET DETAILS : success ', async test => {
 		const ID = await account.getID('account')
 		await tD.register(ID, 456447895, '16 Barneby Road')
 		const value = await tD.getDetails(ID)
-		const obj = 
+		const obj =
 		{
 			address: '16 Barneby Road',
 			phoneNumber: 456447895,
