@@ -11,7 +11,9 @@ test('REGISTER : error if blank techID', async test => {
 	const tD = await new TechDetails()
 	try {
 		await account.register('account', 'password', 'technician', 'doej@gmail.com')
-		await tD.register('', 456447895, '16 Barneby Road')
+		let obj={fridge: true,microwave: true,freezer: true,boiler: true,washing_machine: true,tumble_dryer: true}
+		obj = JSON.stringify(obj)
+		await tD.register('', 456447895, obj, '16 Barneby Road')
 		test.fail('error not thrown')
 	} catch(err) {
 		test.is(err.message, 'missing field', 'incorrect error message')
@@ -27,7 +29,9 @@ test('REGISTER : error if blank phone number', async test => {
 	try {
 		await account.register('account', 'password', 'technician', 'doej@gmail.com')
 		const ID = await account.getID('account')
-		await tD.register(ID, '', '16 Barneby Road')
+		let obj={fridge: true,microwave: true,freezer: true,boiler: true,washing_machine: true,tumble_dryer: true}
+		obj = JSON.stringify(obj)
+		await tD.register(ID, '', obj, '16 Barneby Road')
 		test.fail('error not thrown')
 	} catch(err) {
 		test.is(err.message, 'missing field', 'incorrect error message')
@@ -36,6 +40,23 @@ test('REGISTER : error if blank phone number', async test => {
 	}
 })
 
+test('REGISTER : error if blank types', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const tD = await new TechDetails()
+	try {
+		await account.register('account', 'password', 'technician', 'doej@gmail.com')
+		const ID = await account.getID('account')
+		await tD.register(ID, 456447895, '', '16 Barneby Road')
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'missing field', 'incorrect error message')
+	} finally {
+		account.close()
+	}
+})
+
+
 test('REGISTER : error if blank address', async test => {
 	test.plan(1)
 	const account = await new Accounts()
@@ -43,7 +64,9 @@ test('REGISTER : error if blank address', async test => {
 	try {
 		await account.register('account', 'password', 'technician', 'doej@gmail.com')
 		const ID = await account.getID('account')
-		await tD.register(ID, 456447895, '')
+		let obj={fridge: true,microwave: true,freezer: true,boiler: true,washing_machine: true,tumble_dryer: true}
+		obj = JSON.stringify(obj)
+		await tD.register(ID, 456447895, obj, '')
 		test.fail('error not thrown')
 	} catch(err) {
 		test.is(err.message, 'missing field', 'incorrect error message')
@@ -59,7 +82,9 @@ test('REGISTER : success', async test => {
 	try {
 		await account.register('account', 'password', 'technician', 'doej@gmail.com')
 		const ID = await account.getID('account')
-		const value = await tD.register(ID, 456447895, '16 Barneby Lane')
+		let obj={fridge: true,microwave: true,freezer: true,boiler: true,washing_machine: true,tumble_dryer: true}
+		obj = JSON.stringify(obj)
+		const value = await tD.register(ID, 456447895, obj, '16 Barneby Lane')
 		test.is(value, true)
 	} catch(err) {
 		test.fail('error thrown')
@@ -76,7 +101,9 @@ test('GET DETAILS : error if blank techID', async test => {
 	try {
 		await account.register('account', 'password', 'technician', 'doej@gmail.com')
 		const ID = await account.getID('account')
-		await tD.register(ID, 456447895, '16 Barneby Road')
+		let obj={fridge: true,microwave: true,freezer: true,boiler: true,washing_machine: true,tumble_dryer: true}
+		obj = JSON.stringify(obj)
+		await tD.register(ID, 456447895, obj, '16 Barneby Road')
 		await tD.getDetails('')
 		test.fail('error not thrown')
 	} catch(err) {
@@ -94,12 +121,15 @@ test('GET DETAILS : success ', async test => {
 	try {
 		await account.register('account', 'password', 'technician', 'doej@gmail.com')
 		const ID = await account.getID('account')
-		await tD.register(ID, 456447895, '16 Barneby Road')
+		let obj={fridge: true,microwave: true,freezer: true,boiler: true,washing_machine: true,tumble_dryer: true}
+		obj = JSON.stringify(obj)
+		await tD.register(ID, 456447895, obj, '16 Barneby Road')
 		const value = await tD.getDetails(ID)
-		const obj =
+		obj =
 		{
 			address: '16 Barneby Road',
 			phoneNumber: 456447895,
+			types: obj
 		}
 		test.deepEqual(value, obj)
 	} catch(err) {
