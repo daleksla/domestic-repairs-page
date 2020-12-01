@@ -15,6 +15,11 @@ async function checkAuth(ctx, next) {
 
 router.use(checkAuth)
 
+/**
+ * determines which technicians can work on said appliance
+ * @param {Object} ctx Koa context
+ * @returns {Array} returns array of object with technician info.
+ */
 async function findRelevantTechnicians(ctx) {
 	const td = await new TechDetails(dbName)
 	const acc = await new Accounts(dbName)
@@ -23,15 +28,10 @@ async function findRelevantTechnicians(ctx) {
 	const relevantTechnicians = []
 	//loop through all technicians to see if appliances are true for them, shove into array
 	for(const i of allTechnicians) {
-		console.log(i.id)
 		const values = await td.getDetails(i.id)
 		console.log(values)
-		if(values.types[appliance] === true) {
-			values.name = await acc.getUsername(i.id)
-			relevantTechnicians.push(values)
-		}
+		if(values.types[appliance] === true) relevantTechnicians.push(values)
 	}
-	console.log(relevantTechnicians)
 	acc.close()
 	td.close()
 	return relevantTechnicians

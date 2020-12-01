@@ -23,7 +23,6 @@ router.get('/', async ctx => {
 	}
 })
 
-
 /**
  * The user registration page.
  *
@@ -68,8 +67,8 @@ router.post('/login', async ctx => {
 		ctx.session.authorised = true
 		ctx.session.user = body.user
 		const accountType = await account.getType(ctx.session.user)
-		ctx = modifyContext(ctx, accountType, body)[0]
-		const referrer = modifyContext(ctx, accountType, body)[1]
+		ctx = determinePath(ctx, accountType, body)[0]
+		const referrer = determinePath(ctx, accountType, body)[1]
 		return ctx.redirect(`${referrer}?msg=you are now logged in...`)
 	} catch(err) {
 		ctx.hbs.msg = err.message
@@ -78,8 +77,13 @@ router.post('/login', async ctx => {
 		account.close()
 	}
 })
-
-function modifyContext(ctx, accountType, body) {
+/**
+ * determines which webpage should run
+ * @param {Object} ctx Koa context - stores data we will modify
+ * @param {String} accountType account of user who logged in 
+ * @returns {Array} Koa context, name of path
+ */
+function determinePath(ctx, accountType, body) {
 	let referrer = ''
 	if(accountType === 'customer') {
 		referrer = body.referrer || '/custhub'
