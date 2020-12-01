@@ -23,11 +23,12 @@ router.post('/custhub/reportIssue', async ctx => {
 	try {
 		const id = await acc.getID(ctx.session.user)
 		const c = ctx
+		ctx.session.item = ctx.request.body.type
 		const v=[c.request.body.type,[c.request.body.age,c.request.body.manufacturer,c.request.body.description]]
 		const state = 'unassigned'
 		const y = 1
 		await jobs.register(v[y-y], state, v[y], id)
-		ctx.redirect(`/custhub/reportIssue/relevantTechs`)
+		ctx.redirect('/custhub/reportIssue/relevantTechs')
 	} catch(err) {
 		ctx.hbs.msg = err.message
 		ctx.hbs.body = ctx.request.body

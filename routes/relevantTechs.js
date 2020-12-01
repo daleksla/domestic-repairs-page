@@ -18,17 +18,20 @@ router.use(checkAuth)
 async function findRelevantTechnicians(ctx) {
 	const td = await new TechDetails(dbName)
 	const acc = await new Accounts(dbName)
-	const appliance = ctx.request.body.type
+	const appliance = ctx.session.item //this works
 	const allTechnicians = await acc.getAccounts('technician')
-	const relevantTechnicians = []
+	let relevantTechnicians = []
 	//loop through all technicians to see if appliances are true for them, shove into array
-	for(const i of allTechnicians) {
+	for(let i of allTechnicians) {
+		console.log(i.id)
 		const values = await td.getDetails(i.id)
-		if(values.types.appliance === true) {
-			values.types.name = await acc.getUsername(i.id)
-			relevantTechnicians.push(i)
+		console.log(values)
+		if(values.types[appliance] === true) {
+			values.name = await acc.getUsername(i.id)
+			relevantTechnicians.push(values)
 		}
 	}
+	console.log(relevantTechnicians)
 	acc.close()
 	td.close()
 	return relevantTechnicians
@@ -43,7 +46,6 @@ router.get('/custhub/reportIssue/relevantTechs', async ctx => {
 	} catch(err) {
 		ctx.hbs.msg = err.message
 		ctx.hbs.body = ctx.request.body
-		ctx.hbs.records = {status: ""}
 		ctx.hbs.status = false
 	} finally {
 		await ctx.render('relevantTechs', ctx.hbs) //send data to website

@@ -37,11 +37,12 @@
 		{{/if}} -->
 		<main>
 			{{#if status}}
+			<p>Based on the appliance you've requested for repair, here are technicians specialising in said repairs</p>
 				<table>
-					<tr><th>Technician username</th><th>Address</th><th>Phone number</th></tr>
-					{{#each record}}
+					<tr><th><h2>Username</h2></th><th><h2>Address</h2></th><th><h2>Phone number</h2></th></tr>
+					{{#each records}}
 					<tr>
-						<td><h2>{{this.id}}</h2></td>
+						<td>{{this.name}}</td>
 						<td>{{this.address}}</td>
 						<td>{{this.phoneNumber}}</td>
 						</tr>
