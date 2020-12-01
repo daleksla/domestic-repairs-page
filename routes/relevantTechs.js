@@ -20,9 +20,9 @@ async function findRelevantTechnicians(ctx) {
 	const acc = await new Accounts(dbName)
 	const appliance = ctx.session.item //this works
 	const allTechnicians = await acc.getAccounts('technician')
-	let relevantTechnicians = []
+	const relevantTechnicians = []
 	//loop through all technicians to see if appliances are true for them, shove into array
-	for(let i of allTechnicians) {
+	for(const i of allTechnicians) {
 		console.log(i.id)
 		const values = await td.getDetails(i.id)
 		console.log(values)

@@ -22,8 +22,7 @@ router.post('/custhub/reportIssue', async ctx => {
 	const acc = await new Accounts(dbName)
 	try {
 		const id = await acc.getID(ctx.session.user)
-		const c = ctx
-		ctx.session.item = ctx.request.body.type
+		const c = ctx ; ctx.session.item = ctx.request.body.type
 		const v=[c.request.body.type,[c.request.body.age,c.request.body.manufacturer,c.request.body.description]]
 		const state = 'unassigned'
 		const y = 1
