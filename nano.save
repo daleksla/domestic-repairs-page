@@ -1,0 +1,56 @@
+  countries=["germany","Germany","slovakia","Slovakia","lithuania","Lithuania","france","France","italy","Italy","spain","Spain","china","China","czechia","Czechia"]
+    comparison1 = input("What is the first country you would like to compare?")
+
+ if comparison1 not in countries:
+     print("Sorry we don't have the information for that country.")
+
+    r = requests.get(pomberApiEndpoint())
+
+    elif date == "total":
+        date = datetime.today() - timedelta(days=1)
+        date = str(date)
+        date = date[0:10]  # function datetime.today() provides time too but not needed
+        dayNumber = dayOfTheYearNumber(date)
+        events = r.json()
+        confirmedCases1 = events[country][dayNumber]["confirmed"]
+        comparison1Total = confirmedCases1
+    else:
+        dayNumber = dayOfTheYearNumber(date)
+        dayNumberDayBefore = dayNumber - 1
+        events = r.json()
+        confirmedCases1 = events[country][dayNumber]["confirmed"] - events[country][dayNumberDayBefore][
+            "confirmed"]  # daily confirmed cases must be calculated current day - previous day
+        comparison1Total = confirmedCases1
+    return (comparison1Total)
+
+
+    comparison2 = input("What is the second country you would like to compare?")
+      if comparison2 not in countries:
+          print("Sorry we don't have the information for that country.")
+
+         elif date == "total":
+             date = datetime.today() - timedelta(days=1)
+             date = str(date)
+             date = date[0:10]  # function datetime.today() provides time too but not needed
+             dayNumber = dayOfTheYearNumber(date)
+             events = r.json()
+             confirmedCases2 = events[country][dayNumber]["confirmed"]
+             comparison2Total = confirmedCases2
+         else:
+             dayNumber = dayOfTheYearNumber(date)
+             dayNumberDayBefore = dayNumber - 1
+             events = r.json()
+             confirmedCases2 = events[country][dayNumber]["confirmed"] - events[country][dayNumberDayBefore][
+                 "confirmed"]  # daily confirmed cases must be calculated current day - previous day
+             comparison2Total = confirmedCases2
+
+         return (comparison2Total)
+
+    totalAmount = (comparison1Total - comparison2Total)
+
+      if totalAmount >0:
+         print(comparison1 + " has " + totalAmount + " more cases than " + comparison2)
+      elif totalAmount <0:
+         print(comparison1 + " has " + (abs(totalAmount) + " less cases than " + comparison2)
+      else totalAmount = 0:
+         print(comparison1 " has the same number of cases as " + comparison2)

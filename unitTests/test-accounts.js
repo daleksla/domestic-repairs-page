@@ -209,3 +209,31 @@ test('GET ID : id retrieval', async test => {
 	test.is(value, 1)
 	account.close()
 })
+
+test('GET ACCOUNTS : no accounts found', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	try {
+		await account.getAccounts('customer')
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'No accounts of type "customer" found', 'incorrect error message')
+	} finally {
+		account.close()
+	}
+})
+
+test('GET ACCOUNTS : type retrieval', async test => {
+	test.plan(2)
+	const account = await new Accounts()
+	await account.register('testing', 'testing', 'customer', 'testing@outlook.com')
+	await account.register('brum', 'brum', 'technician', 'brum@outlook.com')
+	await account.register('fum', 'fum', 'technician', 'fum@outlook.com')
+	let accounts = await account.getAccounts('technician')
+	let expected = [{id: 2},{id: 3}]
+	test.deepEqual(accounts, expected)
+	accounts = await account.getAccounts('customer')
+	expected = [{id: 1}]
+	test.deepEqual(accounts, expected)
+	account.close()
+})
