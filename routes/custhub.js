@@ -25,7 +25,7 @@ async function configureJobs(jobs, currentUserID) {
 		} else if(status === 'in progress') {
 			aJob.status2 = 'selected'
 			aJob.status1 = aJob.status3 = ''
-		} else if(status === 'in progress') {
+		} else if(status === 'resolved') {
 			aJob.status3 = 'selected'
 			aJob.status1 = aJob.status2 = ''
 		}

@@ -104,6 +104,19 @@ class Accounts {
 		const object = await this.db.get(sql) //it returns an object, not value alone
 		return Number(object.id)
 	}
+	/**
+	 * get all accounts of a given type
+	 * @param {String} type the type of an account
+	 * @returns {Object} the relevant accounts
+	 */
+	async getAccounts(type) {
+		let sql = `SELECT count(id) AS count FROM users WHERE type="${type}";`
+		const records = await this.db.get(sql)
+		if(records.count === 0) throw new Error(`No accounts of type "${type}" found`)
+		sql = `SELECT id FROM users WHERE type="${type}";`
+		const object = await this.db.all(sql) //it returns an object, not value alone
+		return object
+	}
 
 	async close() {
 		await this.db.close()

@@ -1,0 +1,56 @@
+
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Relevant Technicians</title>
+		<meta name="description" content="form to add new books">
+		<meta name="author" content="Mark Tyers">
+		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+		<script type="module" src="{{host}}/main.js"></script>
+	</head>
+	<body>
+		<header>
+		<h1>Relevant Technicians</h1>
+			<a href="/logout">Log out</a>
+		</header>
+	<nav>
+  <h2>Content</h2>
+  <ol>
+    <li><a href="/">Home</a></li>
+		{{#if authorised}}
+			{{#if isCustomer}}
+				<li><a href="/techhub">Hub</a></li>
+			{{else}}
+				<li><a href="/custhub">Hub</a></li>
+		{{/if}}
+		{{else}}
+			<li><a href="/login">Hub</a></li>
+		{{/if}}
+		</ol>
+		</nav>
+<!-- 		{{#if msg}}
+<aside>
+				<p id="notification" class="msg">{{msg}}</p>
+			</aside>
+		{{/if}} -->
+		<main>
+			{{#if status}}
+			<p>Based on the appliance you've requested for repair, here are technicians specialising in said repairs</p>
+				<table>
+					<tr><th><h2>Username</h2></th><th><h2>Address</h2></th><th><h2>Phone number</h2></th></tr>
+					{{#each records}}
+					<tr>
+						<td>{{this.name}}</td>
+						<td>{{this.address}}</td>
+						<td>{{this.phoneNumber}}</td>
+						</tr>
+					{{/each}}
+				</table>
+			{{else}}
+				<p>Sorry, we have no relevant technicians able to assist you</p>
+			{{/if}}
+		</main>
+	</body>
+</html>
