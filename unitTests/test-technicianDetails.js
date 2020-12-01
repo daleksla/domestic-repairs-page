@@ -121,8 +121,7 @@ test('GET DETAILS : success ', async test => {
 	try {
 		await account.register('account', 'password', 'technician', 'doej@gmail.com')
 		const ID = await account.getID('account')
-		let obj={fridge: true,microwave: true,freezer: true,boiler: true,washing_machine: true,tumble_dryer: true}
-		obj = JSON.stringify(obj)
+		let obj={ fridge: true,microwave: true,freezer: true,boiler: true,washing_machine: true,tumble_dryer: true}
 		await tD.register(ID, 456447895, obj, '16 Barneby Road')
 		const value = await tD.getDetails(ID)
 		obj =
@@ -133,7 +132,7 @@ test('GET DETAILS : success ', async test => {
 		}
 		test.deepEqual(value, obj)
 	} catch(err) {
-		test.fail('error thrown')
+		test.fail(err.message)
 	} finally {
 		account.close()
 	}

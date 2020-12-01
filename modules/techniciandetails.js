@@ -39,7 +39,7 @@ address TEXT, phoneNumber INTEGER, types TEXT,\
 		})
 		types = JSON.stringify(types)
 		const sql = `INSERT INTO techDetails(techID, phoneNumber, types, address)\
-VALUES(${techID}, ${phone}, "${types}", "${address}")`
+VALUES(${techID}, ${phone}, '"${types}"', "${address}")`
 		await this.db.run(sql)
 		return true
 	}
@@ -54,6 +54,9 @@ VALUES(${techID}, ${phone}, "${types}", "${address}")`
 		})
 		const sql = `SELECT address, phoneNumber, types FROM techDetails WHERE id=${techID};`
 		const object = await this.db.get(sql) //it returns an object, not value alone
+		object.types = object.types.replace('"', '').replace(/"([^"]*)$/, '$1')
+		object.types = object.types.replace(/\\/gi, '').replace(/'/gi, '').replace(/:/gi, ': ')
+		object.types = JSON.parse(object.types)
 		return object
 	}
 
