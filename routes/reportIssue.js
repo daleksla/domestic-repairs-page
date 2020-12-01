@@ -27,7 +27,7 @@ router.post('/custhub/reportIssue', async ctx => {
 		const state = 'unassigned'
 		const y = 1
 		await jobs.register(v[y-y], state, v[y], id)
-		ctx.redirect(`/custhub?msg=report for appliance "${ctx.request.body.type}" has been added`)
+		ctx.redirect(`/custhub/reportIssue/relevantTechs`)
 	} catch(err) {
 		ctx.hbs.msg = err.message
 		ctx.hbs.body = ctx.request.body

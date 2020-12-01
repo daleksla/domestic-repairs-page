@@ -1,6 +1,5 @@
 
 import Router from 'koa-router'
-import Jobs from '../modules/jobs.js'
 import Accounts from '../modules/accounts.js'
 import TechDetails from '../modules/techniciandetails.js'
 
@@ -16,25 +15,38 @@ async function checkAuth(ctx, next) {
 
 router.use(checkAuth)
 
-router.get('/custhub/reportIssue/relevantTechs', async ctx => {
+async function findRelevantTechnicians(ctx) {
 	const td = await new TechDetails(dbName)
 	const acc = await new Accounts(dbName)
+	const appliance = ctx.request.body.type
+	const allTechnicians = await acc.getAccounts('technician')
+	const relevantTechnicians = []
+	//loop through all technicians to see if appliances are true for them, shove into array
+	for(const i of allTechnicians) {
+		const values = await td.getDetails(i.id)
+		if(values.types.appliance === true) {
+			values.types.name = await acc.getUsername(i.id)
+			relevantTechnicians.push(i)
+		}
+	}
+	acc.close()
+	td.close()
+	return relevantTechnicians
+}
+
+router.get('/custhub/reportIssue/relevantTechs', async ctx => {
 	try {
-		const id = await acc.getID(ctx.session.user)
-		const appliance = ctx.request.body.type
-		const allTechnicians = await acc.getAccounts('technician')
-		//loop through all technicians to see if appliances are true for them, shove into array
-		//get their information
-		//set ctx.hbs.record.status as true
-		//save to ctx.hbs.records
+		const relevantTechnicians = await findRelevantTechnicians(ctx)
+		if(relevantTechnicians.length === 0) throw new Error('No relevant technicians')
+		ctx.hbs.records = relevantTechnicians
+		ctx.hbs.status = true
 	} catch(err) {
 		ctx.hbs.msg = err.message
 		ctx.hbs.body = ctx.request.body
-		//ctx.hbs.record.status = false, will mean no techs can help
+		ctx.hbs.records = {status: ""}
+		ctx.hbs.status = false
 	} finally {
 		await ctx.render('relevantTechs', ctx.hbs) //send data to website
-		acc.close()
-		td.close()
 	}
 })
 
