@@ -40,7 +40,13 @@
 			</aside>
 		{{/if}}
 	<main>
-		<p>This is the home page. Users can see it without logging in.</p>
-	</main>
+		<p>Welcome to Domestic Repairs Ltd.!</p>
+		<p>We pride ourselves in being a flexible service to connect technicians and customers together</p>
+		{{#if authorised}}
+		  <p>Please navigate to the 'Hub' page</p>
+		{{else}}
+			<p>For existing customers / technicians, please <a href="/login">login</a><br>To become a customer / technician, please <a href="/register">register</a> for free!</p>
+		{{/if}}
+		</main>
 	</body>
 </html>
