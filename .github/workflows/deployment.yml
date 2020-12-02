@@ -14,7 +14,6 @@ jobs:
       - name: Install dpl tool
         run: sudo gem install dpl
       - name: Push to cloud
-        run: dpl --provider=heroku --app=$NAME --api-key=$KEY
+        run: dpl --provider=heroku --app=domestic-repairs-page --api-key=${KEY}
         env:
-          NAME: ${{ secrets.HEROKU_API_NAME }}
           KEY: ${{ secrets.HEROKU_API_KEY }}
