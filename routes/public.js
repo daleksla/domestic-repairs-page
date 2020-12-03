@@ -80,7 +80,7 @@ router.post('/login', async ctx => {
 /**
  * determines which webpage should run
  * @param {Object} ctx Koa context - stores data we will modify
- * @param {String} accountType account of user who logged in 
+ * @param {String} accountType account of user who logged in
  * @returns {Array} Koa context, name of path
  */
 function determinePath(ctx, accountType, body) {
