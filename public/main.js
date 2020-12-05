@@ -41,3 +41,19 @@ window.addEventListener('scroll', () => {
 		else header.classList.remove('sticky')
 	}
 })
+
+window.addEventListener('Dark mode button', () => {
+	document.getElementById('mode').addEventListener('click', () => {
+		//edit this to make this work
+		const button = document.getElementById('mode')
+		if(button.innerText === 'Toggle dark mode') {
+			//activate light mode
+			button.innerText = 'Toggle light mode'
+			console.log('Dark mode on')
+		} else if(button.innerText === 'Toggle light mode') {
+			//activate dark mode
+			button.innerText = 'Toggle dark mode'
+			console.log('Light mode on')
+		}
+	})
+})

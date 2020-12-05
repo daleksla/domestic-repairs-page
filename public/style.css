@@ -1,3 +1,12 @@
+.header h1 {
+  position: relative;
+}
+
+.dark-mode {
+  background-color: black;
+  color: white;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: black;
@@ -82,8 +91,9 @@ header > a {
 }
 
 header > img {
+	float: left;
 	width: 7vw;
-	border-radius: 50%;
+/* 	border-radius: 50%; */
 	position: absolute;
 	left: 0.5vw;
 	top: 0.5vw;
