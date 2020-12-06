@@ -5,14 +5,18 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Relevant Technicians</title>
-		<meta name="description" content="form to add new books">
-		<meta name="author" content="Mark Tyers">
+		<meta name="description" content="Displays technicians able to do a given job">
+		<meta name="author" content="Salih Ahmed">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+		<link href="{{host}}/darkstyle.css" type="text/css" rel="stylesheet" />
+		<link rel="icon" href="{{host}}/3014274.svg">
 		<script type="module" src="{{host}}/main.js"></script>
 	</head>
 	<body>
-		<header>
+		<header id="header">
+			<img src="{{host}}/3014274.svg" alt="Logo" />
 		<h1>Relevant Technicians</h1>
+				<button id="mode">Toggle dark mode</button>
 			<a href="/logout">Log out</a>
 		</header>
 	<nav>
@@ -30,19 +34,13 @@
 		{{/if}}
 		</ol>
 		</nav>
-<!-- 		{{#if msg}}
-<aside>
-				<p id="notification" class="msg">{{msg}}</p>
-			</aside>
-		{{/if}} -->
 		<main>
 			{{#if status}}
-			<p>Based on the appliance you've requested for repair, here are technicians specialising in said repairs</p>
+			<p>Based on the appliance you've requested for repair, here are the details of technicians specialising in said repairs</p>
 				<table>
-					<tr><th><h2>Username</h2></th><th><h2>Address</h2></th><th><h2>Phone number</h2></th></tr>
+					<tr><th><h2>Address</h2></th><th><h2>Phone number</h2></th></tr>
 					{{#each records}}
 					<tr>
-						<td>{{this.name}}</td>
 						<td>{{this.address}}</td>
 						<td>{{this.phoneNumber}}</td>
 						</tr>
@@ -51,6 +49,12 @@
 			{{else}}
 				<p>Sorry, we have no relevant technicians able to assist you</p>
 			{{/if}}
+			<footer>
+				<p>&copy; Domestic Repairs Ltd.</p>
+			</footer>
 		</main>
+			<footer>
+				<p>&copy; Domestic Repairs Ltd.</p>
+			</footer>
 	</body>
 </html>

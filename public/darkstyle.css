@@ -1,0 +1,107 @@
+@media (prefers-color-scheme: dark) {
+	body {
+		color: darkgray ;
+		background-color: black;
+	}
+
+	body main p {
+		color: white ;
+	}
+
+	body nav {
+		margin: 0;
+		border-top: 1px solid grey;
+		border-bottom: 1px solid grey;
+		color: #C3C3C3;
+		background-color: #424242;
+		text-align: center;
+	}
+
+	body nav ol li {
+		font-weight: 700;
+		font-style: normal;
+		font-size: 20px;
+	}
+
+	body main {
+		background-color: #424242;
+	}
+
+	textarea, textarea[class], input[type='text'], input[type='text'][class] {
+		color: #dcdcdc ;
+		background-color: #555555 ;
+	}
+
+	svg:not([fill]) {
+		fill: #7d7d7d ;
+	}
+
+	li, select {
+		background-image: none ;
+	}
+
+	input[type='text'], input[type='search'] {
+		text-indent: 10px ;
+	}
+
+	a {
+		background-color: rgba(255, 255, 255, 0.01) ;
+	}
+
+	svg[fill], button, input[type='button'], input[type='submit'] {
+		opacity: 0.85 ;
+	}
+}
+
+body.dark-mode {
+  color: darkgray ;
+  background-color: black;
+}
+
+body.dark-mode main p {
+	color: white ;
+}
+
+body.dark-mode nav {
+  margin: 0;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  color: #C3C3C3;
+  background-color: #424242;
+  text-align: center;
+}
+
+body.dark-mode nav ol li {
+  font-weight: 700;
+  font-style: normal;
+  font-size: 20px;
+}
+
+body.dark-mode main {
+  background-color: #424242;
+}
+
+textarea.dark-mode, textarea[class].dark-mode, input[type='text'].dark-mode, input[type='text'][class].dark-mode {
+  color: #dcdcdc ;
+  background-color: #555555 ;
+}
+
+svg:not([fill]).dark-mode {
+	fill: #7d7d7d ;
+}
+
+li.dark-mode, select.dark-mode {
+	background-image: none ;
+}
+
+input[type='text'].dark-mode, input[type='search'].dark-mode {
+	text-indent: 10px ;
+}
+
+a.dark-mode {
+	background-color: rgba(255, 255, 255, 0.01) ;
+}
+
+svg[fill].dark-mode, button.dark-mode, input[type='button'].dark-mode, input[type='submit'].dark-mode {
+	opacity: 0.85 ;
+}

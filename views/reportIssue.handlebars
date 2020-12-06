@@ -5,14 +5,18 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Report Issue</title>
-		<meta name="description" content="form to add new books">
-		<meta name="author" content="Mark Tyers">
+		<meta name="description" content="Form to enter a new issue">
+		<meta name="author" content="Salih Ahmed">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+		<link href="{{host}}/darkstyle.css" type="text/css" rel="stylesheet" />
+		<link rel="icon" href="{{host}}/3014274.svg">
 		<script type="module" src="{{host}}/main.js"></script>
 	</head>
 	<body>
-		<header>
+		<header id="header">
+			<img src="{{host}}/3014274.svg" alt="Logo" />
 		<h1>Report Issue</h1>
+				<button id="mode">Toggle dark mode</button>
 			<a href="/logout">Log out</a>
 		</header>
 	<nav>
@@ -70,6 +74,10 @@
 			</p>
 				<p><input type="submit" value="Create"></p>
 			</form>
+
 		</main>
+			<footer>
+				<p>&copy; Domestic Repairs Ltd.</p>
+			</footer>		
 	</body>
 </html>
