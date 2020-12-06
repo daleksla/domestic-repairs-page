@@ -5,14 +5,18 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Customer Hub</title>
-		<meta name="description" content="form to add new books">
-		<meta name="author" content="Mark Tyers">
+		<meta name="description" content="Displays customer job & form to change their status">
+		<meta name="author" content="Salih Ahmed">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+		<link href="{{host}}/darkstyle.css" type="text/css" rel="stylesheet" />
+		<link rel="icon" href="{{host}}/3014274.svg">
 		<script type="module" src="{{host}}/main.js"></script>
 	</head>
 	<body>
-		<header>
+		<header id="header">
+			<img src="{{host}}/3014274.svg" alt="Logo" />
 		<h1>Hub</h1>
+				<button id="mode">Toggle dark mode</button>
 			<a href="/logout">Log out</a>
 		</header>
 	<nav>
@@ -60,8 +64,6 @@
 				<p>No job data is stored for your account</p>
 			{{/if}}
 			<p><a href="/custhub/reportIssue">Report new Issue</a></p>
-<!-- 		<p>This is a secure page. Users need to have a valid account and be logged in to see it.</p> -->
-<!-- 		<p><a href="/">Home page</a></p> -->
 		</main>
 	</body>
 </html>

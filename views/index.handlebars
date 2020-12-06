@@ -5,14 +5,18 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Home Page</title>
-		<meta name="description" content="form to add new books">
-		<meta name="author" content="Mark Tyers">
+		<meta name="description" content="Home page">
+		<meta name="author" content="Salih Ahmed">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+		<link href="{{host}}/darkstyle.css" type="text/css" rel="stylesheet" />
+		<link rel="icon" href="{{host}}/3014274.svg">
 		<script type="module" src="{{host}}/main.js"></script>
 	</head>
 	<body>
-		<header>
+		<header id="header">
+			<img src="{{host}}/3014274.svg" alt="Logo" />
 			<h1>Home</h1>
+				<button id="mode">Toggle dark mode</button>
 			{{#if authorised}}
 				<a href="/logout">Log out</a>
 			{{else}}
@@ -40,7 +44,13 @@
 			</aside>
 		{{/if}}
 	<main>
-		<p>This is the home page. Users can see it without logging in.</p>
-	</main>
+		<p>Welcome to Domestic Repairs Ltd.!</p>
+		<p>We pride ourselves in being a flexible service to connect technicians and customers together</p>
+		{{#if authorised}}
+		  <p>Please navigate to the 'Hub' page</p>
+		{{else}}
+			<p>For existing customers / technicians, please <a href="/login">login</a><br>To become a customer / technician, please <a href="/register">register</a> for free!</p>
+		{{/if}}
+		</main>
 	</body>
 </html>
