@@ -51,6 +51,14 @@
 	svg[fill], button, input[type='button'], input[type='submit'] {
 		opacity: 0.85 ;
 	}
+	
+	body tr td h2,  body tr td {
+  	color: white ;
+  }
+}
+
+body.dark-mode tr td h2,  body.dark-mode tr td{
+  color: white ;
 }
 
 body.dark-mode {

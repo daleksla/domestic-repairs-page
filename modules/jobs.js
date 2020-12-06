@@ -143,9 +143,9 @@ VALUES("${job}", "${status}", "${age}", "${manufacturer}", "${fault}", "${custom
 		let sql = `SELECT count(id) AS count FROM jobs WHERE status="${status}";`
 		const records = await this.db.get(sql)
 		if(!records.count) {
-			return `No jobs found for customer with status "${status}"`
+			return `No jobs found with status "${status}"`
 		}
-		sql = `SELECT job FROM jobs WHERE status="${status}";`
+		sql = `SELECT job, customerID FROM jobs WHERE status="${status}";`
 		const object = await this.db.all(sql) //it returns an object, not value alone
 		return object
 	}
