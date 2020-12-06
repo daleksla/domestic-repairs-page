@@ -136,6 +136,21 @@ VALUES("${job}", "${status}", "${age}", "${manufacturer}", "${fault}", "${custom
 	}
 	/**
 	 * checks to return the job status
+	 * @param {String} status the status of the job
+	 * @returns {Object} the jobs associated with that status
+	 */
+	async getJobsByStatus(status) {
+		let sql = `SELECT count(id) AS count FROM jobs WHERE status="${status}";`
+		const records = await this.db.get(sql)
+		if(!records.count) {
+			return `No jobs found for customer with status "${status}"`
+		}
+		sql = `SELECT job FROM jobs WHERE status="${status}";`
+		const object = await this.db.all(sql) //it returns an object, not value alone
+		return object
+	}
+	/**
+	 * checks to return the job status
 	 * @param {String} job the job name to check
 	 * @param {String} status to be updated
 	 * @param {String} customerID who's job this pertains to
