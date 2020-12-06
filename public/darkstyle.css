@@ -1,54 +1,107 @@
-html, body {
-  color: #dcdcdc !important;
-  background-image: none !important;
-  background-color: #292929 !important;
+@media (prefers-color-scheme: dark) {
+	body {
+		color: darkgray ;
+		background-color: black;
+	}
+
+	body main p {
+		color: white ;
+	}
+
+	body nav {
+		margin: 0;
+		border-top: 1px solid grey;
+		border-bottom: 1px solid grey;
+		color: #C3C3C3;
+		background-color: #424242;
+		text-align: center;
+	}
+
+	body nav ol li {
+		font-weight: 700;
+		font-style: normal;
+		font-size: 20px;
+	}
+
+	body main {
+		background-color: #424242;
+	}
+
+	textarea, textarea[class], input[type='text'], input[type='text'][class] {
+		color: #dcdcdc ;
+		background-color: #555555 ;
+	}
+
+	svg:not([fill]) {
+		fill: #7d7d7d ;
+	}
+
+	li, select {
+		background-image: none ;
+	}
+
+	input[type='text'], input[type='search'] {
+		text-indent: 10px ;
+	}
+
+	a {
+		background-color: rgba(255, 255, 255, 0.01) ;
+	}
+
+	svg[fill], button, input[type='button'], input[type='submit'] {
+		opacity: 0.85 ;
+	}
 }
 
-html::before, body::before {
-  background-image: none !important;
+body.dark-mode {
+  color: darkgray ;
+  background-color: black;
 }
 
-html *:not(input) {color: #dcdcdc !important}
-html * {background-color: rgb(41, 41, 41, 0.90) !important}
-
-html *, html *[id], html *[class] {
-  box-shadow: none !important;
-  text-shadow: none !important;
-  border-radius: unset !important;
-  border-color: #555555 !important;
-  outline-color: #555555 !important;
+body.dark-mode main p {
+	color: white ;
 }
 
-img, img[src] {
-  z-index: 1;
-  filter: brightness(0.85) !important;
-  background-color: initial !important;
+body.dark-mode nav {
+  margin: 0;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  color: #C3C3C3;
+  background-color: #424242;
+  text-align: center;
 }
 
-video, video[src] {
-  z-index: 1;
-  background-color: transparent !important;
+body.dark-mode nav ol li {
+  font-weight: 700;
+  font-style: normal;
+  font-size: 20px;
 }
 
-input:not([type='button']):not([type='submit']) {
-  color: #dcdcdc !important;
-  background-image: none !important;
-  background-color: #333333 !important;
+body.dark-mode main {
+  background-color: #424242;
 }
 
-textarea, textarea[class], input[type='text'], input[type='text'][class] {
-  color: #dcdcdc !important;
-  background-color: #555555 !important;
+textarea.dark-mode, textarea[class].dark-mode, input[type='text'].dark-mode, input[type='text'][class].dark-mode {
+  color: #dcdcdc ;
+  background-color: #555555 ;
 }
 
-svg:not([fill]) {fill: #7d7d7d !important}
-li, select {background-image: none !important}
-input[type='text'], input[type='search'] {text-indent: 10px}
-a {background-color: rgba(255, 255, 255, 0.01) !important}
-html cite, html cite *, html cite *[class] {color: #029833 !important}
-svg[fill], button, input[type='button'], input[type='submit'] {opacity: 0.85 !important}
+svg:not([fill]).dark-mode {
+	fill: #7d7d7d ;
+}
 
-:before {color: #dcdcdc !important}
-:link:not(cite), :link *:not(cite) {color: #8db2e5 !important}
-:visited, :visited *, :visited *[class] {color: rgb(211, 138, 138) !important}
- 
+li.dark-mode, select.dark-mode {
+	background-image: none ;
+}
+
+input[type='text'].dark-mode, input[type='search'].dark-mode {
+	text-indent: 10px ;
+}
+
+a.dark-mode {
+	background-color: rgba(255, 255, 255, 0.01) ;
+}
+
+svg[fill].dark-mode, button.dark-mode, input[type='button'].dark-mode, input[type='submit'].dark-mode {
+	opacity: 0.85 ;
+}

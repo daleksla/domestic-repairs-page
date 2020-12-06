@@ -2,21 +2,10 @@
   position: relative;
 }
 
-.dark-mode {
-  background-color: black;
+/* .dark-mode {
+  background-color: darkgray;
   color: white;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: black;
-    color: white;
-  }
-  h1, h2, h3,p {
-		color: white ;
-    background-color: #333;
-  }
-}
+} */
 
 body {
 		font-family: Arial, Helvetica, sans-serif;
@@ -90,6 +79,32 @@ header > a {
 	font-size: 1.3vw;
 }
 
+header > button {
+	background-color: grey;
+	vertical-align: middle;
+/*   -ms-transform: translateY(-50%);
+  transform: translateY(105%); */
+	margin-top: 3vw;
+	margin-right: 3vw;
+	float: right;
+	font-size: 1.3vw;
+	border: 2px solid grey;
+	color: white;
+	float: right;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0.4vw 0.8vw;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 1.5vw;
+}
+
+button:hover {
+  background-color: white;
+	color: gray;
+}
+
 header > img {
 	float: left;
 	width: 7vw;
@@ -135,6 +150,10 @@ main a {
 main a:hover {
 	color: red;
 	text-decoration: none;
+}
+
+body main {
+  background-color:  #C3C3C3;
 }
 
 section {
@@ -290,12 +309,6 @@ td {
   display: inline;
 } */
 
-nav {
-  margin: 0;
-  border-top: 1px solid grey;
-  border-bottom: 1px solid grey;
-}
-
 nav ol {
   list-style-type: none;
   margin: 0;
@@ -308,7 +321,16 @@ nav ol li {
   padding: 1em;
   cursor: pointer;
   font-family: quicksand;
-  font-weight: 400;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 20px;
+}
+
+nav {
+  margin: 0;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  text-align: center;
 }
 
 nav a:link {
