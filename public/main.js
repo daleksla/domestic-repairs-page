@@ -51,12 +51,14 @@ window.addEventListener('DOMContentLoaded', () => { //dark mode button
 				button.innerText = 'Toggle light mode'
 				window.localStorage.mode = 'dark'
 				document.body.classList.add('dark-mode')
+				document.querySelector('img').src = '3014275.svg'
 				console.log('Dark mode on')
 			} else if(button.innerText === 'Toggle light mode') {
 				//activate light mode
 				button.innerText = 'Toggle dark mode'
 				window.localStorage.mode = 'light'
 				document.body.classList.remove('dark-mode')
+				document.querySelector('img').src = '3014274.svg'
 				console.log('Light mode on')
 			}
 		})
@@ -69,9 +71,11 @@ window.addEventListener('DOMContentLoaded', () => { //to load and format pages
 		if(mode === 'dark') {
 			document.body.classList.add('dark-mode')
 			document.querySelector('button').innerText = 'Toggle light mode'
+			document.querySelector('img').src = '3014275.svg'
 		} else {
 			document.body.classList.remove('dark-mode')
 			document.querySelector('button').innerText = 'Toggle dark mode'
+			document.querySelector('img').src = '3014274.svg'
 		}
 	} finally {
 		console.log('Data loaded from local storage')
