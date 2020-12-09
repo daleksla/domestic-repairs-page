@@ -4,8 +4,8 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Relevant Technicians</title>
-		<meta name="description" content="Displays technicians able to do a given job">
+		<title>Technician Hub</title>
+		<meta name="description" content="Displays unassigned jobs">
 		<meta name="author" content="Salih Ahmed">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
 		<link href="{{host}}/darkstyle.css" type="text/css" rel="stylesheet" />
@@ -15,7 +15,7 @@
 	<body>
 		<header id="header">
 			<img src="{{host}}/3014274.svg" alt="Logo" />
-		<h1>Relevant Technicians</h1>
+		<h1>Hub</h1>
 				<button id="mode">Toggle dark mode</button>
 			<a href="/logout">Log out</a>
 		</header>
@@ -28,33 +28,37 @@
 				<li><a href="/techhub">Hub</a></li>
 			{{else}}
 				<li><a href="/custhub">Hub</a></li>
-		{{/if}}
+			{{/if}}
 		{{else}}
 			<li><a href="/login">Hub</a></li>
 		{{/if}}
 		</ol>
 		</nav>
+		{{#if msg}}
+ 			<aside>
+				<p id="notification" class="msg">{{msg}}</p>
+			</aside>
+		{{/if}}
 		<main>
-			{{#if status}}
-			<p>Based on the appliance you've requested for repair, here are the details of technicians specialising in said repairs</p>
+			{{#if record.status}}
 				<table>
-					<tr><th><h2>Address</h2></th><th><h2>Phone number</h2></th></tr>
-					{{#each records}}
+					<tr><th>Job</th><th>Customer</th></tr>
+					{{#each record}}
+<!-- 							<form action="/custhub" enctype="multipart/form-data" method="post"> -->
 					<tr>
-						<td>{{this.address}}</td>
-						<td>{{this.phoneNumber}}</td>
+						<td><h2>{{this.job}}</h2></td>
+<!-- 						<input type="hidden" name="job" value="{{this.job}}"><br/> <!-- hidden field to store our values-->
+						<td>
+								<p>{{this.user}}</p>	
+						</td>
+<!-- 							<td><p><input type="submit" value="Submit changes"></p></td> -->
 						</tr>
+<!-- 					</form> -->
 					{{/each}}
 				</table>
 			{{else}}
-				<p>Sorry, we have no relevant technicians able to assist you</p>
+				<p>No jobs are currently unassigned</p>
 			{{/if}}
-			<footer>
-				<p>&copy; Domestic Repairs Ltd.</p>
-			</footer>
 		</main>
-			<footer>
-				<p>&copy; Domestic Repairs Ltd.</p>
-			</footer>
 	</body>
 </html>

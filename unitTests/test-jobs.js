@@ -296,19 +296,19 @@ test('GET JOBS BY STATUS : jobs not found', async test => {
 	const job = await new Jobs()
 	await account.register('doej', 'password', 'customer', 'doej@gmail.com')
 	const result = await job.getJobsByStatus('unassigned')
-	test.is(result, 'No jobs found for customer with status "unassigned"', 'incorrect error message')
+	test.is(result, 'No jobs found with status "unassigned"', 'incorrect error message')
 	account.close()
 	job.close()
 })
 
 test('GET JOBS BY STATUS : jobs retrieval', async test => {
-	test.plan(1)
+	test.plan(2)
 	const account = await new Accounts()
 	const job = await new Jobs()
 	await account.register('doej', 'password', 'customer', 'doej@gmail.com')
 	const accountID = await account.getID('doej')
 	await job.register('fridge', 'unassigned', [7, 'Bosch', 'Light will not turn on'], accountID)
 	const value = await job.getJobsByStatus('unassigned')
-	const mockValue = 'fridge'
-	test.is(value[0].job, mockValue)
+	test.is(value[0].job, 'fridge')
+	test.is(value[0].customerID, accountID)
 })
