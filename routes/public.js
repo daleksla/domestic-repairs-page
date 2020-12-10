@@ -87,16 +87,17 @@ function determinePath(ctx, accountType, body) {
 	let referrer = ''
 	if(accountType === 'customer') {
 		referrer = body.referrer || '/custhub'
-		ctx.hbs.isCustomer = true
+		ctx.session.isCustomer = true
 	} else if(accountType === 'technician') {
 		referrer = body.referrer || '/techhub'
-		ctx.hbs.isCustomer = false
+		ctx.session.isCustomer = false
 	} else throw new Error('Invalid account')
 	return [ctx, referrer]
 }
 
 router.get('/logout', async ctx => {
 	ctx.session.authorised = null
+	ctx.session.isCustomer = null
 	ctx.redirect('/?msg=you are now logged out')
 })
 

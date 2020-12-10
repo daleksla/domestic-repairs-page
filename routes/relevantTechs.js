@@ -7,9 +7,9 @@ const router = new Router()
 const dbName = 'website.db'
 
 async function checkAuth(ctx, next) {
-	console.log('customer hub router middleware')
+	console.log('relevant technicians hub router middleware')
 	console.log(ctx.hbs)
-	if(ctx.hbs.authorised !== true) return ctx.redirect('/login?msg=you need to log in&referrer=/custhub')
+	if(ctx.hbs.authorised !== true) return ctx.redirect('/login?msg=you need to log in&referrer=/custhub/reportIssue')
 	await next()
 }
 
