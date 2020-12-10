@@ -13,7 +13,15 @@ async function checkAuth(ctx, next) {
 	await next()
 }
 
+// async function checkType(ctx, next) {
+// 	console.log('customer hub router middleware')
+// 	console.log(ctx.hbs)
+// 	if(ctx.hbs.isCustomer !== true) return ctx.redirect("/?msg=You don't have access to this page!")
+// 	await next()
+// }
+
 router.use(checkAuth)
+// router.use(checkType)
 
 router.get('/custhub/reportIssue', async ctx => await ctx.render('reportIssue'))
 

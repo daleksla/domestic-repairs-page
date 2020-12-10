@@ -13,12 +13,19 @@ const dbName = 'website.db'
 async function checkAuth(ctx, next) {
 	console.log('technician hub router middleware')
 	console.log(ctx.hbs)
-	if(ctx.hbs.authorised !== true) return ctx.redirect('/login?msg=you need to log in&referrer=/techhub')
+	if(ctx.hbs.isCustomer !== false) return ctx.redirect('/login?msg=you need to log in&referrer=/techhub')
 	await next()
 }
 
-router.use(checkAuth)
+// async function checkType(ctx, next) {
+// 	console.log('customer hub router middleware')
+// 	console.log(ctx.hbs)
+// 	if(ctx.hbs.type !== 'technician') return ctx.redirect("/?msg=You don't have access to this page!")
+// 	await next()
+// }
 
+router.use(checkAuth)
+// router.use(checkType)
 /**
  * determines which job status will be shown by default
  * @param {Array} jobs array of each job & it's information

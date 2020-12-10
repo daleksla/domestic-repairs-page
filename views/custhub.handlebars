@@ -47,7 +47,7 @@
 							<form action="/custhub" enctype="multipart/form-data" method="post">
 					<tr>
 						<td><h2>{{this.job}}</h2></td>
-						<input type="hidden" name="job" value="{{this.job}}"><br/> <!-- hidden field to store our values-->
+						<input type="hidden" name="job" value="{{this.id}}"><br/> <!-- hidden field to store our values-->
 						<td>
 										<select required name="status" value="status">
 											<option value="unassigned" {{this.status1}} >unassigned</option>

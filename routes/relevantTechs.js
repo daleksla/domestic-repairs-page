@@ -12,8 +12,15 @@ async function checkAuth(ctx, next) {
 	if(ctx.hbs.authorised !== true) return ctx.redirect('/login?msg=you need to log in&referrer=/custhub/reportIssue')
 	await next()
 }
+// async function checkType(ctx, next) {
+// 	console.log('customer hub router middleware')
+// 	console.log(ctx.hbs)
+// 	if(ctx.hbs.isCustomer !== true) return ctx.redirect("/?msg=You don't have access to this page!")
+// 	await next()
+// }
 
 router.use(checkAuth)
+// router.use(checkType)
 
 /**
  * determines which technicians can work on said appliance

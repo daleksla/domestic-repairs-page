@@ -179,6 +179,49 @@ test('GET STATUS : status retrieval', async test => {
 	job.close()
 })
 
+////
+test('GET STATUS BY ID : invalid user', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const job = await new Jobs()
+	try {
+		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+		const accountID = await account.getID('doej')
+		await job.register('fridge', 'unassigned', [7, 'Bosch', 'Light will not turn on'], accountID)
+		await job.getStatusByID(1, accountID+1)
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'customer with customerID "2" not found', 'incorrect error message')
+	} finally {
+		account.close()
+		job.close()
+	}
+})
+
+test('GET STATUS BY ID : status retrieval', async test => {
+	test.plan(3)
+	const account = await new Accounts()
+	const job = await new Jobs()
+	await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+	const accountID = await account.getID('doej')
+
+	await job.register('fridge', 'unassigned', [7, 'Bosch', 'Light will not turn on'], accountID)
+	let value = await job.getStatusByID(1, accountID)
+	test.is(value, 'unassigned')
+
+	await job.register('dishwasher', 'in progress', [7, 'Bosch', 'Light will not turn on'], accountID)
+	value = await job.getStatusByID(2, accountID)
+	test.is(value, 'in progress')
+
+	await job.register('boiler', 'resolved', [7, 'Bosch', 'Light will not turn on'], accountID)
+	value = await job.getStatusByID(3, accountID)
+	test.is(value, 'resolved')
+
+	account.close()
+	job.close()
+})
+////
+
 test('UPDATE STATUS : error if blank job', async test => {
 	test.plan(1)
 	const account = await new Accounts()
@@ -265,6 +308,94 @@ test('UPDATE STATUS : status update', async test => {
 	job.close()
 })
 
+////
+test('UPDATE STATUS BY ID : error if blank job', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const job = await new Jobs()
+	try {
+		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+		const accountID = await account.getID('doej')
+		await job.register('fridge', 'unassigned', [7, 'Bosch', 'Light will not turn on'], accountID)
+		await job.updateStatusByID('', 'resolved', accountID)
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'missing field', 'incorrect error message')
+	} finally {
+		account.close()
+		job.close()
+	}
+})
+
+test('UPDATE STATUS BY ID : error if invalid status', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const job = await new Jobs()
+	try {
+		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+		const accountID = await account.getID('doej')
+		await job.register('fridge', 'unassigned', [7, 'Bosch', 'Light will not turn on'], accountID)
+		await job.updateStatusByID(1, 'random', accountID)
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'status "random" is invalid', 'incorrect error message')
+	} finally {
+		account.close()
+		job.close()
+	}
+})
+
+test('UPDATE STATUS BY ID : error if blank status', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const job = await new Jobs()
+	try {
+		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+		const accountID = await account.getID('doej')
+		await job.register('fridge', 'unassigned', [7, 'Bosch', 'Light will not turn on'], accountID)
+		await job.updateStatusByID(1, '', accountID)
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'missing field', 'incorrect error message')
+	} finally {
+		account.close()
+		job.close()
+	}
+})
+
+test('UPDATE STATUS BY ID : error if blank customerID', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const job = await new Jobs()
+	try {
+		await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+		const accountID = await account.getID('doej')
+		await job.register('fridge', 'unassigned', [7, 'Bosch', 'Light will not turn on'], accountID)
+		await job.updateStatusByID(1, 'unassigned', '')
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'missing field', 'incorrect error message')
+	} finally {
+		account.close()
+		job.close()
+	}
+})
+
+test('UPDATE STATUS BY ID : status update', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const job = await new Jobs()
+	await account.register('doej', 'password', 'customer', 'doej@gmail.com')
+	const accountID = await account.getID('doej')
+	await job.register('fridge', 'unassigned', [7, 'Bosch', 'Light will not turn on'], accountID)
+	await job.updateStatusByID(1, 'resolved', accountID)
+	const status = await job.getStatus('fridge', accountID)
+	test.is(status, 'resolved')
+	account.close()
+	job.close()
+})
+////
+
 test('GET JOBS : jobs not found', async test => {
 	test.plan(1)
 	const account = await new Accounts()
@@ -278,7 +409,7 @@ test('GET JOBS : jobs not found', async test => {
 })
 
 test('GET JOBS : jobs retrieval', async test => {
-	test.plan(1)
+	test.plan(2)
 	const account = await new Accounts()
 	const job = await new Jobs()
 	await account.register('doej', 'password', 'customer', 'doej@gmail.com')
@@ -288,6 +419,7 @@ test('GET JOBS : jobs retrieval', async test => {
 	const value = await job.getJobs(accountID)
 	const mockValue = 'fridge'
 	test.is(value[0].job, mockValue)
+	test.is(value[0].id, 1)
 })
 
 test('GET JOBS BY STATUS : jobs not found', async test => {
