@@ -36,9 +36,9 @@ window.addEventListener('scroll', () => { //to make a fixed header
 	console.log('scrolling occuring')
 	if(document.querySelector('header')) {
 		const header = document.getElementById('header')
-		const sticky = header.offsetTop
-		if (window.pageYOffset > sticky) header.classList.add('sticky')
-		else header.classList.remove('sticky')
+// 		const sticky = header.offsetTop
+// 		if (window.pageYOffset > sticky) header.classList.add('sticky')
+// 		else header.classList.remove('sticky')
 	}
 })
 

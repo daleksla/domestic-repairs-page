@@ -42,7 +42,6 @@ input:valid, textarea:valid {
 }
 
 header {
-	padding: 10px 16px;
 	background-color: #ccc;
 	border-bottom: 5px solid grey;
 	height: 8vw;
