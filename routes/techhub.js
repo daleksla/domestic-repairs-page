@@ -13,14 +13,16 @@ const dbName = 'website.db'
 async function checkAuth(ctx, next) {
 	console.log('technician hub router middleware')
 	console.log(ctx.hbs)
-	if(ctx.hbs.isCustomer !== false) return ctx.redirect('/login?msg=you need to log in&referrer=/techhub')
+	if(ctx.hbs.authorised !== true) return ctx.redirect('/login?msg=you need to log in&referrer=/techhub')
 	await next()
 }
 
 // async function checkType(ctx, next) {
-// 	console.log('customer hub router middleware')
+// 	console.log('technician hub router middleware')
 // 	console.log(ctx.hbs)
-// 	if(ctx.hbs.type !== 'technician') return ctx.redirect("/?msg=You don't have access to this page!")
+// 	const account = await new Accounts(dbName)
+// 	const accountType = await account.getType(ctx.hbs.user)
+// 	if(accountType !== 'technician') return ctx.redirect("/?msg=You don't have access to this page!")
 // 	await next()
 // }
 
