@@ -13,7 +13,7 @@ def main():
 		print("You seldomly should push the master branch to the Server")
 		print("Would you like to proceed? [Y/N]")
 		sys.stdin = open('/dev/tty')
-		answer = raw_input('< ')
+		answer = input('< ')
 		if answer.strip().lower().startswith('y'):
 			return 1
 	return 0
