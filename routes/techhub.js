@@ -17,8 +17,17 @@ async function checkAuth(ctx, next) {
 	await next()
 }
 
-router.use(checkAuth)
+// async function checkType(ctx, next) {
+// 	console.log('technician hub router middleware')
+// 	console.log(ctx.hbs)
+// 	const account = await new Accounts(dbName)
+// 	const accountType = await account.getType(ctx.hbs.user)
+// 	if(accountType !== 'technician') return ctx.redirect("/?msg=You don't have access to this page!")
+// 	await next()
+// }
 
+router.use(checkAuth)
+// router.use(checkType)
 /**
  * determines which job status will be shown by default
  * @param {Array} jobs array of each job & it's information

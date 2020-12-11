@@ -25,9 +25,9 @@
     <li><a href="/">Home</a></li>
 		{{#if authorised}}
 			{{#if isCustomer}}
-				<li><a href="/techhub">Hub</a></li>
-			{{else}}
 				<li><a href="/custhub">Hub</a></li>
+			{{else}}
+				<li><a href="/techhub">Hub</a></li>
 			{{/if}}
 		{{else}}
 			<li><a href="/login">Hub</a></li>
@@ -47,7 +47,7 @@
 							<form action="/custhub" enctype="multipart/form-data" method="post">
 					<tr>
 						<td><h2>{{this.job}}</h2></td>
-						<input type="hidden" name="job" value="{{this.job}}"><br/> <!-- hidden field to store our values-->
+						<input type="hidden" name="job" value="{{this.id}}"><br/> <!-- hidden field to store our values-->
 						<td>
 										<select required name="status" value="status">
 											<option value="unassigned" {{this.status1}} >unassigned</option>
@@ -65,5 +65,8 @@
 			{{/if}}
 			<p><a href="/custhub/reportIssue">Report new Issue</a></p>
 		</main>
+					<footer>
+				<p>&copy; Domestic Repairs Ltd.</p>
+			</footer>
 	</body>
 </html>

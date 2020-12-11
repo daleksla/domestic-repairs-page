@@ -42,6 +42,7 @@ input:valid, textarea:valid {
 }
 
 header {
+	padding: 10px 16px;
 	background-color: #ccc;
 	border-bottom: 5px solid grey;
 	height: 8vw;
@@ -356,10 +357,14 @@ nav h2 {
     transition: opacity 1s;
 } */
 
+.content {
+  padding: 16px;
+}
+
 .sticky {
   position: fixed;
   top: 0;
-  width: 100%
+  width: 100%;
 }
 
 .sticky + .content {

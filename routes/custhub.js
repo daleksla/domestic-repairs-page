@@ -17,7 +17,15 @@ async function checkAuth(ctx, next) {
 	await next()
 }
 
+// async function checkType(ctx, next) {
+// 	console.log('customer hub router middleware')
+// 	console.log(ctx.hbs)
+// 	if(ctx.hbs.isCustomer !== true) return ctx.redirect("/?msg=You don't have access to this page!")
+// 	await next()
+// }
+
 router.use(checkAuth)
+// router.use(checkType)
 
 /**
  * determines which job status will be shown by default
@@ -28,7 +36,7 @@ router.use(checkAuth)
 async function configureJobs(jobs, currentUserID) {
 	const job = await new Jobs(dbName)
 	for(const aJob of jobs) {
-		const status = await job.getStatus(aJob.job, currentUserID)
+		const status = await job.getStatusByID(aJob.id, currentUserID)
 		if(status === 'unassigned') {
 			aJob.status1 = 'selected'
 			aJob.status2 = aJob.status3 = ''
@@ -90,7 +98,7 @@ router.post('/', async ctx => {
 		const currentUserName = ctx.session.user
 		const currentUserID = await account.getID(currentUserName)
 		//below we call a function to update our code
-		await jobs.updateStatus(ctx.request.body.job, ctx.request.body.status, currentUserID)
+		await jobs.updateStatusByID(ctx.request.body.job, ctx.request.body.status, currentUserID)
 	} catch(err) {
 		ctx.hbs.msg = err.message
 		ctx.hbs.body = ctx.request.body

@@ -99,6 +99,28 @@ VALUES("${job}", "${status}", "${age}", "${manufacturer}", "${fault}", "${custom
 	}
 	/**
 	 * checks to return the job status
+	 * @param {Number} job the job id to check
+	 * @param {Number} customerID the ID of the customer to check
+	 * @returns {String} status of the job
+	 */
+	async getStatusByID(job, customerID) {
+		let sql = `SELECT count(id) AS count FROM jobs WHERE id=${job} AND customerID=${customerID};`
+		let records = await this.db.get(sql)
+		if(!records.count) {
+			sql = `SELECT count(id) AS count FROM jobs WHERE id=${job};`
+			records = await this.db.get(sql)
+			if(!records.count) {
+				throw new Error(`job with ID "${job}" not found`)
+			} else {
+				throw new Error(`customer with customerID "${customerID}" not found`)
+			}
+		}
+		sql = `SELECT status FROM jobs WHERE id=${job} AND customerID=${customerID};`
+		const object = await this.db.get(sql) //it returns an object, not value alone
+		return String(object.status)
+	}
+	/**
+	 * checks to return the job status
 	 * @param {String} job the job name to check
 	 * @param {Number} customerID the ID of the customer to check
 	 * @returns {Number} id of the job
@@ -130,7 +152,7 @@ VALUES("${job}", "${status}", "${age}", "${manufacturer}", "${fault}", "${custom
 		if(!records.count) {
 			return `No jobs found for customer with customerID "${customerID}"`
 		}
-		sql = `SELECT job FROM jobs WHERE customerID=${customerID};`
+		sql = `SELECT id, job FROM jobs WHERE customerID=${customerID};`
 		const object = await this.db.all(sql) //it returns an object, not value alone
 		return object
 	}
@@ -168,6 +190,28 @@ VALUES("${job}", "${status}", "${age}", "${manufacturer}", "${fault}", "${custom
 			throw new Error(`customer with customerID "${customerID}" not found`)
 		}
 		sql = `UPDATE jobs SET status="${newStatus}" WHERE job="${job}" AND customerID=${customerID};`
+		await this.db.run(sql)
+		return true
+	}
+	/**
+	 * checks to return the job status
+	 * @param {Number} job the job id to check
+	 * @param {String} status to be updated
+	 * @param {String} customerID who's job this pertains to
+	 * @returns {Boolean} returns true if the job has been updated
+	 */
+	async updateStatusByID(job, newStatus, customerID) {
+		this.checkMissingParameters(arguments)
+		this.checkStatus(newStatus)
+		let sql = `SELECT count(id) AS count FROM jobs WHERE id=${job};`
+		let records = await this.db.get(sql)
+		if(!records.count) {
+			sql = `SELECT count(id) AS new FROM jobs WHERE id=${job};`
+			records = await this.db.get(sql)
+			if(!records.new) throw new Error(`job with ID "${job}" not found`)
+			throw new Error(`customer with customerID "${customerID}" not found`)
+		}
+		sql = `UPDATE jobs SET status="${newStatus}" WHERE id=${job} AND customerID=${customerID};`
 		await this.db.run(sql)
 		return true
 	}

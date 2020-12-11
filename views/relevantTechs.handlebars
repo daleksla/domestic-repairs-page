@@ -25,9 +25,9 @@
     <li><a href="/">Home</a></li>
 		{{#if authorised}}
 			{{#if isCustomer}}
-				<li><a href="/techhub">Hub</a></li>
-			{{else}}
 				<li><a href="/custhub">Hub</a></li>
+			{{else}}
+				<li><a href="/techhub">Hub</a></li>
 		{{/if}}
 		{{else}}
 			<li><a href="/login">Hub</a></li>
@@ -49,9 +49,6 @@
 			{{else}}
 				<p>Sorry, we have no relevant technicians able to assist you</p>
 			{{/if}}
-			<footer>
-				<p>&copy; Domestic Repairs Ltd.</p>
-			</footer>
 		</main>
 			<footer>
 				<p>&copy; Domestic Repairs Ltd.</p>

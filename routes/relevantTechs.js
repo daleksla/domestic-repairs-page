@@ -7,13 +7,25 @@ const router = new Router()
 const dbName = 'website.db'
 
 async function checkAuth(ctx, next) {
-	console.log('customer hub router middleware')
+	console.log('relevant technicians hub router middleware')
 	console.log(ctx.hbs)
-	if(ctx.hbs.authorised !== true) return ctx.redirect('/login?msg=you need to log in&referrer=/custhub')
+	if(ctx.hbs.authorised !== true) {
+		return ctx.redirect('/login?msg=you need to log in&referrer=/custhub/reportIssue/relevantTechs')
+	}
 	await next()
 }
 
+// async function checkType(ctx, next) {
+// 	console.log('customer hub router middleware')
+// 	console.log(ctx.hbs)
+// 	const account = await new Accounts(dbName)
+// 	const accountType = await account.getType(ctx.hbs.user)
+// 	if(accountType !== 'customer') return ctx.redirect("/?msg=You don't have access to this page!")
+// 	await next()
+// }
+
 router.use(checkAuth)
+// router.use(checkType)
 
 /**
  * determines which technicians can work on said appliance

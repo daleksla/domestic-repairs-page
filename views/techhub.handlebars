@@ -25,9 +25,9 @@
     <li><a href="/">Home</a></li>
 		{{#if authorised}}
 			{{#if isCustomer}}
-				<li><a href="/techhub">Hub</a></li>
-			{{else}}
 				<li><a href="/custhub">Hub</a></li>
+			{{else}}
+				<li><a href="/techhub">Hub</a></li>
 			{{/if}}
 		{{else}}
 			<li><a href="/login">Hub</a></li>
@@ -60,5 +60,8 @@
 				<p>No jobs are currently unassigned</p>
 			{{/if}}
 		</main>
+					<footer>
+				<p>&copy; Domestic Repairs Ltd.</p>
+			</footer>
 	</body>
 </html>
