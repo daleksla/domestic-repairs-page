@@ -67,9 +67,9 @@ router.post('/login', async ctx => {
 		ctx.session.authorised = true
 		ctx.session.user = body.user
 		const accountType = await account.getType(ctx.session.user)
-		ctx = determinePath(ctx, accountType, body)[0]
-		const referrer = determinePath(ctx, accountType, body)[1]
-		return ctx.redirect(`${referrer}?msg=you are now logged in...`)
+		const results = determinePath(ctx, accountType, body)
+		ctx = results[0]
+		return ctx.redirect(`${results[1]}?msg=you are now logged in...`)
 	} catch(err) {
 		ctx.hbs.msg = err.message
 		await ctx.render('login', ctx.hbs)
@@ -88,15 +88,19 @@ function determinePath(ctx, accountType, body) {
 	if(accountType === 'customer') {
 		referrer = body.referrer || '/custhub'
 		ctx.hbs.isCustomer = true
+		ctx.hbs.isTechnician = null
 	} else if(accountType === 'technician') {
 		referrer = body.referrer || '/techhub'
-		ctx.hbs.isCustomer = false
+		ctx.hbs.isCustomer = true
+		ctx.hbs.isTechnician = null
 	} else throw new Error('Invalid account')
 	return [ctx, referrer]
 }
 
 router.get('/logout', async ctx => {
 	ctx.session.authorised = null
+	ctx.session.isCustomer = null
+	ctx.session.isTechnician = null
 	ctx.redirect('/?msg=you are now logged out')
 })
 

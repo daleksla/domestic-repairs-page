@@ -4,8 +4,8 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Customer Hub</title>
-		<meta name="description" content="Displays customer job & form to change their status">
+		<title>Technician Hub</title>
+		<meta name="description" content="Displays unassigned jobs">
 		<meta name="author" content="Salih Ahmed">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
 		<link href="{{host}}/darkstyle.css" type="text/css" rel="stylesheet" />
@@ -42,28 +42,23 @@
 		<main>
 			{{#if record.status}}
 				<table>
-					<tr><th>Job</th><th>Status</th></tr>
+					<tr><th>Job</th><th>Customer</th></tr>
 					{{#each record}}
-							<form action="/custhub" enctype="multipart/form-data" method="post">
+<!-- 							<form action="/custhub" enctype="multipart/form-data" method="post"> -->
 					<tr>
 						<td><h2>{{this.job}}</h2></td>
-						<input type="hidden" name="job" value="{{this.id}}"><br/> <!-- hidden field to store our values-->
+<!-- 						<input type="hidden" name="job" value="{{this.job}}"><br/> <!-- hidden field to store our values-->
 						<td>
-										<select required name="status" value="status">
-											<option value="unassigned" {{this.status1}} >unassigned</option>
-											<option value="in progress" {{this.status2}} >in progress</option>
-											<option value="resolved" {{this.status3}}>resolved</option>
-										</select>
-							</td>
-							<td><p><input type="submit" value="Submit changes"></p></td>
+								<p>{{this.user}}</p>	
+						</td>
+<!-- 							<td><p><input type="submit" value="Submit changes"></p></td> -->
 						</tr>
-					</form>
+<!-- 					</form> -->
 					{{/each}}
 				</table>
 			{{else}}
-				<p>No job data is stored for your account</p>
+				<p>No jobs are currently unassigned</p>
 			{{/if}}
-			<p><a href="/custhub/reportIssue">Report new Issue</a></p>
 		</main>
 					<footer>
 				<p>&copy; Domestic Repairs Ltd.</p>

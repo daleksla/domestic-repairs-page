@@ -12,11 +12,9 @@ def main():
 	if branch == b'master\n': #if the output shows it's the master branch
 		print("You seldomly should push the master branch to the Server")
 		print("Would you like to proceed? [Y/N]")
-		sys.stdin = open("/dev/tty", "r")
-		user_input = subprocess.check_output("read -p \"< \" userinput && echo \"$userinput\"", shell=True, stdin=sys.stdin).rstrip()
-		user_input = str(user_input)
-		user_input = user_input.lower()
-		if user_input != 'y':
+		sys.stdin = open('/dev/tty')
+		answer = raw_input('< ')
+		if answer.strip().lower().startswith('y'):
 			return 1
 	return 0
 		

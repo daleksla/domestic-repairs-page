@@ -5,15 +5,36 @@ on:
       - master
       - main
 jobs:
-  deploy:
+  Linter: #first test - called "Linter"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install needed packages
-        run: sudo apt install -y psmisc lsof tree sqlite3 sqlite3-doc build-essential gcc g++ make ruby-dev
-      - name: Install dpl tool
-        run: sudo gem install dpl
-      - name: Push to cloud
-        run: dpl --provider=heroku --app=domestic-repairs-page --api-key=${KEY}
-        env:
-          KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Use NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - run: npm install
+      - run: npm run linter
+  Unit-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install Testing Tools
+        run: npm install
+      - name: Run Test Suite
+        run: npm test
+  deploy:
+    needs: [Linter, Unit-Tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.6.8 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "domestic-repairs-page"
+          heroku_email: "ahmed233@uni.coventry.ac.uk"
+          branch: "master"

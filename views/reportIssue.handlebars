@@ -9,7 +9,7 @@
 		<meta name="author" content="Salih Ahmed">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
 		<link href="{{host}}/darkstyle.css" type="text/css" rel="stylesheet" />
-		<link rel="icon" href="{{host}}/3014274.svg">
+		<link rel="icon" href="{{host}}/3014275.svg">
 		<script type="module" src="{{host}}/main.js"></script>
 	</head>
 	<body>
@@ -25,9 +25,9 @@
     <li><a href="/">Home</a></li>
 		{{#if authorised}}
 			{{#if isCustomer}}
-				<li><a href="/techhub">Hub</a></li>
-			{{else}}
 				<li><a href="/custhub">Hub</a></li>
+			{{else}}
+				<li><a href="/techhub">Hub</a></li>
 		{{/if}}
 		{{else}}
 			<li><a href="/login">Hub</a></li>
