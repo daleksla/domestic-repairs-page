@@ -48,12 +48,12 @@ async function configureJobs(jobs) {
 async function initialiseJobs(ctx) {
 	const job = await new Jobs(dbName)
 	let jobs = await job.getJobsByStatus('unassigned')
-	if(!jobs.includes('No jobs found with status "unassigned"')) {
+	if(jobs != `No jobs found with status "unassigned"`) {
 		jobs = await configureJobs(jobs)
 		ctx.hbs.record = jobs
 		ctx.hbs.record.status = true
 	} else {
-		ctx.hbs.record = jobs
+		ctx.hbs.record = {}
 		ctx.hbs.record.status = false
 	}
 	return ctx
