@@ -52,7 +52,10 @@ VALUES(${techID}, ${phone}, '"${types}"', "${address}")`
 		Array.from(arguments).forEach( val => {
 			if(val.length === 0) throw new Error('missing field')
 		})
-		const sql = `SELECT address, phoneNumber, types FROM techDetails WHERE techID=${techID};`
+		let sql = `SELECT count(id) as count FROM techDetails WHERE techID=${techID};`
+		const result = await this.db.get(sql) //it returns an object, not value alone
+		if(result.count === 0) throw new Error(`no results / details for technician with ID "${techID}"`)
+		sql = `SELECT address, phoneNumber, types FROM techDetails WHERE techID=${techID};`
 		const object = await this.db.get(sql) //it returns an object, not value alone
 		object.types = object.types.replace('"', '').replace(/"([^"]*)$/, '$1')
 		object.types = object.types.replace(/\\/gi, '').replace(/'/gi, '').replace(/:/gi, ': ')

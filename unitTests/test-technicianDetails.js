@@ -113,6 +113,21 @@ test('GET DETAILS : error if blank techID', async test => {
 	}
 })
 
+//make a test to test getDetails - if techID is missing
+test('GET DETAILS : error if techID has no associated details', async test => {
+	test.plan(1)
+	const account = await new Accounts()
+	const tD = await new TechDetails()
+	try {
+		await tD.getDetails(1)
+		test.fail('error not thrown')
+	} catch(err) {
+		test.is(err.message, 'no results / details for technician with ID "1"')
+	} finally {
+		account.close()
+	}
+})
+
 //make test to see if getDetails works
 test('GET DETAILS : success ', async test => {
 	test.plan(1)
