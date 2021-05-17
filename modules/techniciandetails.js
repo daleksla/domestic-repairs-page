@@ -37,9 +37,55 @@ address TEXT, phoneNumber INTEGER, types TEXT,\
 		Array.from(arguments).forEach( val => {
 			if(val.length === 0) throw new Error('missing field')
 		})
+		let sql = `SELECT count(id) as count FROM techDetails WHERE techID=${techID};`
+		const result = await this.db.get(sql) //it returns an object, not value alone
+		if(result.count > 0) throw new Error(`account with techID "${techID}" already exists`)
 		types = JSON.stringify(types)
-		const sql = `INSERT INTO techDetails(techID, phoneNumber, types, address)\
+		sql = `INSERT INTO techDetails(techID, phoneNumber, types, address)\
 VALUES(${techID}, ${phone}, '"${types}"', "${address}")`
+		await this.db.run(sql)
+		return true
+	}
+	/**
+	 * update all technician details
+	 * @param {Number} techID the ID of the account
+	 * @param {Number} phone the phone number of the technician
+	 * @param {Object} types the types of appliance they can fix
+	 * @param {String} address the address of the technician
+	 * @returns {Boolean} if no errors occur
+	 */
+	async updateAll(techID, phone, types, address) {
+		Array.from(arguments).forEach( val => {
+			if(val.length === 0) throw new Error('missing field')
+		})
+		types = JSON.stringify(types)
+		let sql = `SELECT count(id) as count FROM techDetails WHERE techID=${techID};`
+		const result = await this.db.get(sql) //it returns an object, not value alone
+		if(result.count === 0) throw new Error(`no records matching technician ID "${techID}"`)
+		sql = `UPDATE techDetails SET phoneNumber=${phone}, types='"${types}"', address="${address}"\
+								WHERE techID=${techID}`
+		await this.db.run(sql)
+		return true
+	}
+	/**
+	 * update a single technician detail
+	 * @param {Number} techID the ID of the account
+	 * @param {String / Number} value value to modify attribute by
+	 * @param {String} attribute column name to modify
+	 * @returns {Boolean} if no errors occur
+	 */
+	async updateValue(techID, value, attribute) {
+		Array.from(arguments).forEach( val => {
+			if(val.length === 0) throw new Error('missing field')
+		})
+		let sql = `SELECT count(id) as count FROM techDetails WHERE techID=${techID};`
+		const result = await this.db.get(sql) //it returns an object, not value alone
+		if(result.count === 0) throw new Error(`no records matching technician ID "${techID}"`)
+		if(attribute === 'types') {
+			value = JSON.stringify(value)
+			sql = `UPDATE techDetails SET ${attribute}='"${value}"'	WHERE techID=${techID}`
+		} else if(attribute === 'address') sql = `UPDATE techDetails SET ${attribute}="${value}" WHERE techID=${techID}`
+		else sql = `UPDATE techDetails SET ${attribute}=${value} WHERE techID=${techID}`
 		await this.db.run(sql)
 		return true
 	}
