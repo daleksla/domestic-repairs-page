@@ -104,7 +104,7 @@ router.post('/', async ctx => {
 		ctx.hbs.body = ctx.request.body
 		console.log(ctx.hbs)
 	} finally {
-		ctx.redirect('/custhub') //we refresh the page to show updated data
+		ctx.redirect('/custhub?msg=changes saved!') //we refresh the page to show updated data
 		jobs.close()
 	}
 })
